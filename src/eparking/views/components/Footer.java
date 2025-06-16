@@ -6,10 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
-import eparking.utils.Utils;
 
 public class Footer extends JPanel{
 	
@@ -17,7 +15,7 @@ public class Footer extends JPanel{
 
 	public Footer() {
 		JLabel logo = new JLabel();
-		logo.setIcon(Utils.getScaledImageIcon(new ImageIcon(getClass().getResource(RootData.sourcePath + "komatsuLogo.png")), 63, 12));
+		logo.setIcon(new ImageIcon(getClass().getResource(RootData.sourcePath + "komatsuLogo.png")));
 		
 		JLabel lblPowerBy = new JLabel();
 		lblPowerBy.setFont(ThemeStyles.mdFont);
