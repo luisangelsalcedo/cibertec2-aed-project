@@ -78,7 +78,27 @@ public class LoginForm extends JPanel{
 	}
 
 	private Object submitAction() {
+		String userName = txtUserName.getText().trim(); 
+		char[] password = txtPassword.getPassword();			
 		
+		if(userName.length() < 2) {
+			new CustomAlert("El Usuario debe tener min 2 caracteres", AlertType.NOTICE);
+			txtUserName.requestFocus();
+			return null;
+		}
+		if(password.length < 8) {
+			new CustomAlert("La Contraseña debe tener min 8 caracteres", AlertType.NOTICE);
+			txtPassword.requestFocus();
+			return null;
+		}
+		
+		AuthController userControl = new AuthController();
+		if(userControl.login(userName, new String(password))) {
+			System.out.print("\nocultar login");
+			System.out.print("\nMostrar vista principal");
+		} else new CustomAlert(AuthController.getErrorMessage(), AlertType.ERROR);
+
+		cleanTextFields();
 		return null;
 	}
 	
