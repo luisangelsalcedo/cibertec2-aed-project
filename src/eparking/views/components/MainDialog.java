@@ -10,8 +10,13 @@ import eparking.utils.ThemeStyles;
 public class MainDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	private static MainDialog instance;
 
-	public MainDialog() {
+	private MainDialog() {
+		InitDialog();
+	}
+	
+	private void InitDialog() {
 		setSize(500, 245);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -19,6 +24,13 @@ public class MainDialog extends JDialog {
 		setIconImage(
 			Toolkit.getDefaultToolkit().getImage(ThemeStyles.favicon)
 		);
+	}
+	
+	public static MainDialog getInstance() {
+		if(instance == null || !instance.isDisplayable()) {
+			instance = new MainDialog();
+		} 
+		return instance;
 	}
 	
 	public void showView(JPanel view) {
