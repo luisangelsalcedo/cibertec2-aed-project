@@ -4,11 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import eparking.controllers.AuthController;
+import eparking.enums.AlertType;
 import eparking.utils.ThemeStyles;
+import eparking.views.LoginView;
 
 public class MainMenu extends JMenuBar implements ActionListener {
 	
@@ -21,8 +26,11 @@ public class MainMenu extends JMenuBar implements ActionListener {
 	private JMenuItem mntmListarUsuarios;	
 	private JMenuItem mntmAgregarUsuario;	
 	private JMenuItem mntmCerrarSesion;
+	private JFrame parent;
 	
-	public MainMenu(){
+	public MainMenu(JFrame parent){
+		this.parent = parent;
+		
 		Color bgColor = ThemeStyles.$accent;
 		Color fgColor = ThemeStyles.$white;
 		Font menuFont = ThemeStyles.lgFont;
@@ -117,6 +125,16 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		}
 		if(source == mntmCerrarSesion) {
 			System.out.print("Cerrar sesion usuario\n");
+			AuthController controller = new AuthController();
+			
+			String message = "Nos vemos, " + AuthController.getLoggedUser().getName() + ". ¡Vuelve pronto!";
+			new CustomAlert(message, AlertType.DEFAULT);
+			
+			controller.logout();
+			parent.dispose(); // cerramos el HomeView
+			
+			LoginView loginView = new LoginView();
+			loginView.setVisible(true);
 		}
 	}
 }

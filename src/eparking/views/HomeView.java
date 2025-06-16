@@ -31,7 +31,7 @@ public class HomeView extends JFrame{
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ThemeStyles.favicon));
 		
 		// components
-		JMenuBar mainMenu = new MainMenu();
+		JMenuBar mainMenu = new MainMenu(this);
 		WelcomeMessage welcomeMessage = new WelcomeMessage("Bienvenido\n"+ AuthController.getLoggedUser().getName() +"!", "Estas listo para hacer una reserva.");
 		Footer footer = new Footer();		
 		Brand brand = new Brand();
