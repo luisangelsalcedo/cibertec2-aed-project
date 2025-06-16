@@ -52,6 +52,7 @@ public class AuthController {
 		
 		userFound.loginAttempt = 0; //reset attempt
 		setLoggedUser(userFound);
+		userDao.updateUser(userFound);
 		setErrorMessage(null);
 		return true;
 	}
