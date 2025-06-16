@@ -14,6 +14,7 @@ import eparking.controllers.AuthController;
 import eparking.enums.AlertType;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
+import eparking.views.HomeView;
 
 public class LoginForm extends JPanel{
 
@@ -94,8 +95,9 @@ public class LoginForm extends JPanel{
 		
 		AuthController userControl = new AuthController();
 		if(userControl.login(userName, new String(password))) {
-			System.out.print("\nocultar login");
-			System.out.print("\nMostrar vista principal");
+			HomeView homeView = new HomeView();
+			homeView.setVisible(true);
+			parent.dispose();
 		} else new CustomAlert(AuthController.getErrorMessage(), AlertType.ERROR);
 
 		cleanTextFields();
