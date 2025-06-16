@@ -110,45 +110,46 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		Object source = e.getSource();
 		String sourceTitle = ((JMenuItem)source).getText();
 		
-		MainDialog dialog = new MainDialog();
-		dialog.setTitle(sourceTitle);
+		
 		// debug
 		System.out.print(sourceTitle + "\n");
 		
 		if(source == mntmReservar) {
-			dialog.showView(new ReserveView(dialog));
+			MainDialog.getInstance().showView(new ReserveView());
 		}
 		if(source == mntmReservaActual) {
-			dialog.showView(new CurrentReservationView(dialog));
+			MainDialog.getInstance().showView(new CurrentReservationView());
 		}
 		if(source == mntmMisReservas) {
-			dialog.showView(new MyReservationsView(dialog));
+			MainDialog.getInstance().showView(new MyReservationsView());
 		}
 		if(source == mntmAcercaDeLaApp) {
-			dialog.showView(new AboutUsView(dialog));
+			MainDialog.getInstance().showView(new AboutUsView());
 		}
 		if(source == mntmVerUsuario) {
-			dialog.showView(new UserInfoView(dialog));
+			MainDialog.getInstance().showView(new UserInfoView());
 		}
 		if(source == mntmListarUsuarios) {
-			dialog.showView(new UserListView(dialog));
+			MainDialog.getInstance().showView(new UserListView());
 		}
 		if(source == mntmAgregarUsuario) {
-			dialog.showView(new CreateUserView(dialog));
+			MainDialog.getInstance().showView(new CreateUserView());
 		}
 		if(source == mntmCerrarSesion) {
-			System.out.print("Cerrar sesion usuario\n");
 			AuthController controller = new AuthController();
 			
 			String message = "Nos vemos, " + AuthController.getLoggedUser().getName() + ". ¡Vuelve pronto!";
 			new CustomAlert(message, AlertType.DEFAULT);
 			
 			controller.logout();
+			MainDialog.getInstance().dispose(); // cerramos el MainDialog
 			parent.dispose(); // cerramos el HomeView
 			
 			LoginView loginView = new LoginView();
 			loginView.setVisible(true);
-		}		
+		} else {
+			MainDialog.getInstance().setTitle(sourceTitle);
+		}
 				
 	}
 }
