@@ -97,7 +97,7 @@ public class LoginForm extends JPanel{
 		if(userControl.login(userName, new String(password))) {
 			HomeView homeView = new HomeView();
 			homeView.setVisible(true);
-			parent.dispose();
+			parent.dispose(); // cerramos el LoginView
 		} else new CustomAlert(AuthController.getErrorMessage(), AlertType.ERROR);
 
 		cleanTextFields();
