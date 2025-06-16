@@ -13,7 +13,14 @@ import javax.swing.JMenuItem;
 import eparking.controllers.AuthController;
 import eparking.enums.AlertType;
 import eparking.utils.ThemeStyles;
+import eparking.views.AboutUsView;
+import eparking.views.CreateUserView;
+import eparking.views.CurrentReservationView;
 import eparking.views.LoginView;
+import eparking.views.MyReservationsView;
+import eparking.views.ReserveView;
+import eparking.views.UserInfoView;
+import eparking.views.UserListView;
 
 public class MainMenu extends JMenuBar implements ActionListener {
 	
@@ -101,27 +108,33 @@ public class MainMenu extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub  
 		Object source = e.getSource();
+		String sourceTitle = ((JMenuItem)source).getText();
+		
+		MainDialog dialog = new MainDialog();
+		dialog.setTitle(sourceTitle);
+		// debug
+		System.out.print(sourceTitle + "\n");
 		
 		if(source == mntmReservar) {
-			System.out.print("Reservar estacionamiento\n");
+			dialog.showView(new ReserveView(dialog));
 		}
 		if(source == mntmReservaActual) {
-			System.out.print("Reserva actual\n");
+			dialog.showView(new CurrentReservationView(dialog));
 		}
 		if(source == mntmMisReservas) {
-			System.out.print("Mis reservas\n");
+			dialog.showView(new MyReservationsView(dialog));
 		}
 		if(source == mntmAcercaDeLaApp) {
-			System.out.print("Acerca de la Aplicacion\n");
+			dialog.showView(new AboutUsView(dialog));
 		}
 		if(source == mntmVerUsuario) {
-			System.out.print("Ver usuario\n");
+			dialog.showView(new UserInfoView(dialog));
 		}
 		if(source == mntmListarUsuarios) {
-			System.out.print("Listar usuarios\n");
+			dialog.showView(new UserListView(dialog));
 		}
 		if(source == mntmAgregarUsuario) {
-			System.out.print("Agregar usuario\n");
+			dialog.showView(new CreateUserView(dialog));
 		}
 		if(source == mntmCerrarSesion) {
 			System.out.print("Cerrar sesion usuario\n");
@@ -135,6 +148,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
 			
 			LoginView loginView = new LoginView();
 			loginView.setVisible(true);
-		}
+		}		
+				
 	}
 }
