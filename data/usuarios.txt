@@ -1,0 +1,5 @@
+Id,Name,UserName,Password,Permission,LoginAttempt,isUserLock1
+1,administrador,seemc9,12345678,administrador,0,false
+2,usuario,rquiroga,nu3v0P@ss,usuario,0,false
+3,Luis Salcedo,lsalcedo,12345678,usuario,0,false
+4,usuario,rroca,1231423sdf,usuario,0,false

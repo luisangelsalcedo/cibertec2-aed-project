@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import eparking.controllers.AuthController;
+import eparking.dao.UserDAO_txt;
 import eparking.enums.AlertType;
 import eparking.utils.ThemeStyles;
 import eparking.views.AboutUsView;
@@ -40,11 +41,9 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		
 		Color bgColor = ThemeStyles.$accent;
 		Color fgColor = ThemeStyles.$white;
-		Font menuFont = ThemeStyles.lgFont;
-		
+		Font menuFont = ThemeStyles.lgFont;		
 		
 		// set menu Items
-
 		mntmReservar 				= new JMenuItem("Reservar estacionamiento");
 		mntmReservaActual 			= new JMenuItem("Reserva actual");
 		mntmMisReservas 			= new JMenuItem("Mis reservas");
@@ -72,8 +71,7 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		mntmVerUsuario.addActionListener(this);
 		mntmListarUsuarios.addActionListener(this);
 		mntmAgregarUsuario.addActionListener(this);
-		mntmCerrarSesion.addActionListener(this);
-		
+		mntmCerrarSesion.addActionListener(this);		
 		
 		// set menus		
 		JMenu mnMantenimiento = new JMenu("Reservas");
@@ -101,15 +99,13 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		add(mnMantenimiento);
 		add(mnUsuarios);
 		add(mnAyuda);
-	}
-	
+	}	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub  
 		Object source = e.getSource();
-		String sourceTitle = ((JMenuItem)source).getText();
-		
+		String sourceTitle = ((JMenuItem)source).getText();		
 		
 		// debug
 		System.out.print(sourceTitle + "\n");
@@ -135,13 +131,11 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		if(source == mntmAgregarUsuario) {
 			MainDialog.getInstance().showView(new CreateUserView());
 		}
-		if(source == mntmCerrarSesion) {
-			AuthController controller = new AuthController();
-			
+		if(source == mntmCerrarSesion) {			
 			String message = "Nos vemos, " + AuthController.getLoggedUser().getName() + ". ¡Vuelve pronto!";
 			new CustomAlert(message, AlertType.DEFAULT);
 			
-			controller.logout();
+			AuthController.logout();
 			MainDialog.getInstance().dispose(); // cerramos el MainDialog
 			parent.dispose(); // cerramos el HomeView
 			

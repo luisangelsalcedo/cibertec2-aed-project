@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import eparking.controllers.AuthController;
+import eparking.dao.UserDAO_txt;
 import eparking.enums.AlertType;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
@@ -92,9 +93,9 @@ public class LoginForm extends JPanel{
 			txtPassword.requestFocus();
 			return null;
 		}
-		
-		AuthController userControl = new AuthController();
-		if(userControl.login(userName, new String(password))) {
+		UserDAO_txt dao = new UserDAO_txt();
+		AuthController controller = new AuthController(dao);
+		if(controller.login(userName, new String(password))) {
 			HomeView homeView = new HomeView();
 			homeView.setVisible(true);
 			parent.dispose(); // cerramos el LoginView

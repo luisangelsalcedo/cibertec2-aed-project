@@ -3,6 +3,7 @@ package eparking.models;
 import eparking.enums.Permission;
 
 public class User {
+	private int id;
 	private String name;
 	private String userName;
 	private String password;
@@ -28,6 +29,10 @@ public class User {
 	}
 
 	// getters
+	public int getId() {
+		return id;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -39,6 +44,10 @@ public class User {
 	public Permission getPermission() {
 		return permission;
 	}
+	
+	public int getLoginAttempt() {
+        return loginAttempt;
+    }
 
 	public String getName() {
 		return name;
@@ -49,6 +58,10 @@ public class User {
 	}
 
 	// setters
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}	
@@ -64,8 +77,16 @@ public class User {
 	public void setPermission(Permission permission) {
 		this.permission = permission;
 	}
+	
+	public void setLoginAttempt(int loginAttempt) {
+        this.loginAttempt = loginAttempt;
+    }
 
 	public void setUserLock(boolean userLock) {
 		this.userLock = userLock;
 	}
+
+	
+
+	
 }
