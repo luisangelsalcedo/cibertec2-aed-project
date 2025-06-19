@@ -4,6 +4,8 @@
 
 Aplicación para la reserva anticipada de espacios de estacionamiento dentro de una empresa cuyo aforo vehicular supera la capacidad disponible.
 
+![Login View](screenshot/screenshot1.png)
+
 🔗 [Ver diseño en Figma](https://www.figma.com/design/R7jmfXG34h4ximzVEgNyTq/cibertec2-aed-project?node-id=0-1&t=HrX1DDrkAzDuCUu3-1)
 
 ---
