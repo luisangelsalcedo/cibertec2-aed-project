@@ -1,11 +1,12 @@
 package eparking.controllers;
 
+import eparking.dao.IUserDAO;
 import eparking.dao.UserDAO;
 import eparking.enums.Permission;
 import eparking.models.User;
 
 public class AuthController {
-	private UserDAO userDao = new UserDAO();
+	private IUserDAO userDao;
 	
 	private static int maxAttempts;
 	private static User loggedUser;
@@ -15,6 +16,10 @@ public class AuthController {
 		maxAttempts = 5;
 		setLoggedUser(null);
 		setErrorMessage(null);
+	}
+	
+	public AuthController(IUserDAO userDao) {
+		this.userDao = userDao;
 	}
 	
 	// getters
@@ -57,7 +62,7 @@ public class AuthController {
 		return true;
 	}
 	
-	public void logout() {
+	public static void logout() {
 		setLoggedUser(null);
 	}
 		
