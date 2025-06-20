@@ -1,6 +1,7 @@
 package eparking.views.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -20,7 +21,7 @@ public class MainDialog extends JDialog {
 		setSize(500, 245);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().setBackground(ThemeStyles.$primaryColor);
+		getContentPane().setBackground(Color.WHITE);
 		setIconImage(
 			Toolkit.getDefaultToolkit().getImage(ThemeStyles.favicon)
 		);
