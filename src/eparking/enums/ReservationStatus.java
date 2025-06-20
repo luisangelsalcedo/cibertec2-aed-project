@@ -26,5 +26,12 @@ public enum ReservationStatus {
 	public String toString() {
 		return this.name;
 	}
+
+	public static ReservationStatus fromTo(String status) {
+		for(ReservationStatus rs : ReservationStatus.values()){
+			if(rs.toString().equalsIgnoreCase(status)) return rs;
+		}
+		throw new IllegalArgumentException("No enum constant interfaces.ReservationStatus." + status);
+	}
 	
 }
