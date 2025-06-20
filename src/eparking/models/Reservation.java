@@ -2,6 +2,7 @@ package eparking.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import eparking.controllers.AuthController;
 import eparking.enums.ReservationStatus;
 
 public class Reservation {
@@ -13,8 +14,10 @@ public class Reservation {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    Reservation(int userId, int parkingId){
-        this.setUserId(userId);
+    public Reservation() {}
+    
+    public Reservation(int parkingId){
+        this.setUserId(1); // logged user
         this.setParkingId(parkingId);
         status = ReservationStatus.PENDING;
         creationDate = LocalDate.now();
