@@ -1,0 +1,6 @@
+Id,Label,Status
+1,4,disponible
+2,1,ocupado
+3,2,disponible
+4,3,ocupado
+5,4,disponible
