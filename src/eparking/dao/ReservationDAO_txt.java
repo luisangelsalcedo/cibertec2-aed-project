@@ -30,7 +30,7 @@ public class ReservationDAO_txt implements IReservationDAO {
 			} else System.out.println("Ya tienes una reservacion pendiente.");
 			
 	    } catch (IOException e) {
-	        System.out.println("Error guardando usuario: " + e.getMessage());
+	        System.out.println("Error guardando la reservacion: " + e.getMessage());
 	    }
 	}
 
