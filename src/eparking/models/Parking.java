@@ -14,11 +14,9 @@ public  class Parking {
 		this.status = status;
 	}
 	
-	public  Parking(String label) {
-		this.label = label;
-		this.status = ParkingStatus.AVAILABLE;
-	}
-	
+	public Parking(String label) {
+		this(1, label, ParkingStatus.AVAILABLE);
+	}	
 	
 	public int getId() {
 		return id;
