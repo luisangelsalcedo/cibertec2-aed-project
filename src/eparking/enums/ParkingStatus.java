@@ -24,4 +24,11 @@ public enum ParkingStatus {
 	public String toString() {
 		return this.name;
 	}
+	
+	public static ParkingStatus fromTo(String status) {
+		for(ParkingStatus rs : ParkingStatus.values()){
+			if(rs.toString().equalsIgnoreCase(status)) return rs;
+		}
+		throw new IllegalArgumentException("No enum constant interfaces.ParkingStatus." + status);
+	}
 }
