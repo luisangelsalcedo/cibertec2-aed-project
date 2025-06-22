@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eparking.enums.Permission;
+import eparking.interfaces.IUserDAO;
 import eparking.models.User;
 
 public class UserDAO implements IUserDAO {

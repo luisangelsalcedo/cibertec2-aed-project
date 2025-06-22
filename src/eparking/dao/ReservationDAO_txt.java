@@ -9,139 +9,113 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import eparking.controllers.AuthController;
 import eparking.enums.ReservationStatus;
+import eparking.interfaces.IReservationDAO;
 import eparking.models.Reservation;
 import eparking.models.User;
 
 public class ReservationDAO_txt implements IReservationDAO {
 	
     private final String filePath =  "data/reservaciones.txt";
+	private final String headers = "Id,UserId,ParkingId,Status,CreationDate,StartTime,EndTime";
+	private List<Reservation> reservationList;
 
-	@Override
-	public void insertReservation(Reservation reservation) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-			reservation.setId(generarNuevoId());
-			
-
-			if(!hasOtherPenddingReservation(AuthController.getLoggedUser())) {		
-				writer.write(reservationToLine(reservation));
-				writer.newLine();
-			} else System.out.println("Ya tienes una reservacion pendiente.");
-			
-	    } catch (IOException e) {
-	        System.out.println("Error guardando la reservacion: " + e.getMessage());
-	    }
+	public ReservationDAO_txt(){
+		reservationList = new ArrayList<>();
+		loadDataFromFile();	
 	}
 
-	@Override
-	public void updateReservation(Reservation reservation) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	@Override
 	public List<Reservation> getAllReservations() {
-		List<Reservation> reservationList = new ArrayList<>();
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        	String txtOneLine = br.readLine(); // headers
-        	while ((txtOneLine = br.readLine()) != null) {
-                String[] fields = txtOneLine.split(",");
-                
-            	reservationList.add(lineToReservation(fields));               			
-			}
-		} catch (Exception e) {
-			System.out.println("Error buscando la reservacion por id: " + e.getMessage());
-		}
-		return reservationList;
+		return new ArrayList<>(reservationList);
 	}
-	
+
 	@Override
 	public List<Reservation> getAllReservationsByUser(User user) {
-		List<Reservation> reservationList = new ArrayList<>();
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        	String txtOneLine = br.readLine(); // headers
-        	while ((txtOneLine = br.readLine()) != null) {
-                String[] fields = txtOneLine.split(",");
-                if(fields[1].equals(String.valueOf(user.getId()))){
-                	reservationList.add(lineToReservation(fields));
-                }				
-			}
-		} catch (Exception e) {
-			System.out.println("Error buscando la reservacion por id: " + e.getMessage());
-		}
-		return reservationList;
+		return reservationList.stream()
+				.filter(reservation -> reservation.getUserId() == user.getId())
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Reservation> getAllReservationsByDate(LocalDate date) {
-		List<Reservation> reservationList = new ArrayList<>();
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        	String txtOneLine = br.readLine(); // headers
-        	while ((txtOneLine = br.readLine()) != null) {
-                String[] fields = txtOneLine.split(",");
-                if(fields[4].equals(String.valueOf(date))){
-                	reservationList.add(lineToReservation(fields));
-                }				
-			}
-		} catch (Exception e) {
-			System.out.println("Error buscando la reservacion por id: " + e.getMessage());
-		}
-		return reservationList;
+		return reservationList.stream()
+				.filter(reservation -> reservation.getCreationDate().equals(date))
+				.collect(Collectors.toList());	
 	}
 
 	@Override
 	public Reservation getReservationsById(int id) {
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-        	String txtOneLine = br.readLine(); // headers
-        	while ((txtOneLine = br.readLine()) != null) {
-                String[] fields = txtOneLine.split(",");
-                if(fields[0].equals(String.valueOf(id))){
-                    return lineToReservation(fields);
-                }				
-			}
-		} catch (Exception e) {
-			System.out.println("Error buscando la reservacion por id: " + e.getMessage());
-		}
-		return null;
+        return reservationList.stream()
+        		.filter(reservation -> reservation.getId() == id)
+        		.findFirst()
+        		.orElse(null);
 	}
 
-	private int generarNuevoId() {
-	     List<Reservation> reservations = getAllReservations();
-	     if(!reservations.isEmpty()) {
-	     	return reservations.get(reservations.size()-1).getId() + 1;
-	     }
-	    return 1;
+	@Override
+	public void insertReservation(Reservation reservation) {
+		reservation.setId(generateNewId());		
+
+		if(!hasOtherPenddingReservation(AuthController.getLoggedUser())) {		
+			reservationList.add(reservation);
+			writeDataToFile();
+		} else System.out.println("Ya tienes una reservacion pendiente.");
 	}
 
-    private String reservationToLine(Reservation reservation){
-        return String.join(",",
-            String.valueOf(reservation.getId()),
-            String.valueOf(reservation.getUserId()),
-            String.valueOf(reservation.getParkingId()),
-            reservation.getStatus().toString(),
-            String.valueOf(reservation.getCreationDate()),
-            String.valueOf(reservation.getStartTime()),
-            String.valueOf(reservation.getEndTime())
-        );
-    }
-    
-    private Reservation lineToReservation(String[] split) {
-    	Reservation reservation = new Reservation();
-    	reservation.setId(Integer.parseInt(split[0]));
-    	reservation.setUserId(Integer.parseInt(split[1]));
-    	reservation.setParkingId(Integer.parseInt(split[2]));
-    	reservation.setStatus(ReservationStatus.fromTo(split[3]));
-    	reservation.setCreationDate(LocalDate.parse(split[4]));
-    	reservation.setStartTime(!"null".equals(split[5]) ? LocalTime.parse(split[5]): null);
-    	reservation.setEndTime(!"null".equals(split[6]) ? LocalTime.parse(split[6]): null);
-		return reservation;
+	@Override
+	public void updateReservation(Reservation reservation) {
+		reservationList.replaceAll(current -> current.getId() == reservation.getId() ? reservation : current);
 	}
-    
-    private boolean hasOtherPenddingReservation(User user) {
+
+	private int generateNewId() {	
+	    return reservationList.stream().mapToInt(Reservation::getId).max().orElse(0) + 1;
+	}
+
+	private void loadDataFromFile() {
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String txtOneLine = br.readLine(); 
+	        while ((txtOneLine = br.readLine()) != null) {
+	            String[] fields = txtOneLine.split(",");
+	            
+	            Reservation reservation = new Reservation();
+				reservation.setId(Integer.parseInt(fields[0]));
+				reservation.setUserId(Integer.parseInt(fields[1]));
+				reservation.setParkingId(Integer.parseInt(fields[2]));
+				reservation.setStatus(ReservationStatus.fromTo(fields[3]));
+				reservation.setCreationDate(LocalDate.parse(fields[4]));
+				reservation.setStartTime(!"null".equals(fields[5]) ? LocalTime.parse(fields[5]): null);
+				reservation.setEndTime(!"null".equals(fields[6]) ? LocalTime.parse(fields[6]): null);
+	            
+	            reservationList.add(reservation);
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error leyendo archivo: " + e.getMessage());
+	    }		
+	}
+
+	private void writeDataToFile() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+			writer.write(headers);
+			for(Reservation reservation:reservationList) {
+				writer.newLine();
+				writer.write(String.join(",",
+				String.valueOf(reservation.getId()),
+				String.valueOf(reservation.getUserId()),
+				String.valueOf(reservation.getParkingId()),
+				reservation.getStatus().toString(),
+				String.valueOf(reservation.getCreationDate()),
+				String.valueOf(reservation.getStartTime()),
+				String.valueOf(reservation.getEndTime())
+				));
+			}			
+	    } catch (IOException e) {
+	        System.out.println("Error guardando usuario: " + e.getMessage());
+	    }	
+	}
+
+	private boolean hasOtherPenddingReservation(User user) {
     	for(Reservation reservation : getAllReservationsByUser(user)) {
     		if(reservation.getStatus().equals(ReservationStatus.PENDING)) return true;
     	}

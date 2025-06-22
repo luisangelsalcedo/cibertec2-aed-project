@@ -1,6 +1,7 @@
-package eparking.dao;
+package eparking.interfaces;
 
 import java.util.List;
+
 import eparking.models.Parking;
 
 public interface IParkingDAO {
