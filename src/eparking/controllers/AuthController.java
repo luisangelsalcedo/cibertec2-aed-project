@@ -1,8 +1,7 @@
 package eparking.controllers;
 
-import eparking.dao.IUserDAO;
-import eparking.dao.UserDAO;
 import eparking.enums.Permission;
+import eparking.interfaces.IUserDAO;
 import eparking.models.User;
 
 public class AuthController {
@@ -10,12 +9,10 @@ public class AuthController {
 	
 	private static int maxAttempts;
 	private static User loggedUser;
-	private static String errorMessage;
 	
 	static {
 		maxAttempts = 5;
 		setLoggedUser(null);
-		setErrorMessage(null);
 	}
 	
 	public AuthController(IUserDAO userDao) {
@@ -26,40 +23,29 @@ public class AuthController {
 	public static User getLoggedUser() {
 		return loggedUser;
 	}
-	public static String getErrorMessage() {
-		return errorMessage;
-	}
-	
+
 	// setters
 	private static void setLoggedUser(User loggedUser) {
 		AuthController.loggedUser = loggedUser;
 	}
-	private static void setErrorMessage(String errorMessage) {
-		AuthController.errorMessage = errorMessage;
-	}
 	
 	// methods
-	public boolean login(String userName, String password) {
+	public void login(String userName, String password) {
 		User userFound = userDao.findUserByUserName(userName);
 		
 		if(userFound == null) {
-			setErrorMessage("El usuario " + userName + " no existe");
-			return false;
+			throw new IllegalArgumentException("El usuario " + userName + " no existe");
 		}
 		if(hasTooManyAttempts(userFound)) {
-			setErrorMessage("Su usuario " + userName + " ha sido bloqueado\nComunicate con el administrador para activarlo");
-			return false;
+			throw new IllegalArgumentException("Su usuario " + userName + " ha sido bloqueado\nComunicate con el administrador para activarlo");
 		}
 		if(!verifyPassword(userFound, password)) {
-			setErrorMessage("El usuario y la contraseña no coinciden");
-			return false;
+			throw new IllegalArgumentException("El usuario y la contraseña no coinciden");
 		}
 		
 		userFound.loginAttempt = 0; //reset attempt
 		setLoggedUser(userFound);
 		userDao.updateUser(userFound);
-		setErrorMessage(null);
-		return true;
 	}
 	
 	public static void logout() {
@@ -82,8 +68,5 @@ public class AuthController {
 		user.setUserLock(true); //user lock
 		userDao.updateUser(user);
 		return true;	
-	}
-	
-
-	
+	}	
 }
