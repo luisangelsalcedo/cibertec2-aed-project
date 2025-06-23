@@ -1,179 +1,138 @@
 package eparking.views;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.border.EmptyBorder;
+import eparking.controllers.ReservationController;
+import eparking.enums.AlertType;
+import eparking.models.Parking;
+import eparking.models.Reservation;
+import eparking.utils.EventSystem;
+import eparking.utils.ThemeStyles;
+import eparking.views.components.CustomAlert;
 import eparking.views.components.CustomButton;
+import eparking.views.components.MainDialog;
+import eparking.views.components.ParkingItem;
 
 public class ReserveView extends JPanel {
 	
-	private JLabel lblDisponibleColor;
-	private JTextField textField;
+	private static final long serialVersionUID = 1L;
+	private final int maxNumColumns = 7;
+	private final int gridGap = 10;
+	private List<Parking> parkingList;
+	private JComboBox<LocalDate> cmbDate;
+	private ReservationController controller;
+	private JTextField txtValue;
+	private JPanel parkingPanel;
+	private LocalDate now;;
+	private Parking parkingSelected;
 	
-	public ReserveView() {
-		setBackground(new Color(192, 192, 192));
-    	setToolTipText("");
-    	setLayout(null);
-    	
-    	JPanel R = new JPanel();
-    	R.setBounds(10, 88, 430, 112);
-    	add(R);
-    	R.setLayout(null);
-    	
-    	JButton btnNewButton = new JButton("01");
-    	btnNewButton.setForeground(new Color(192, 192, 192));
-    	btnNewButton.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btnNewButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    		}
-    	});
-    	btnNewButton.setBackground(new Color(255, 255, 255));
-    	btnNewButton.setBounds(2, 0, 71, 56);
-    	R.add(btnNewButton);
-    	
-    	JButton btn2 = new JButton("02");
-    	btn2.setBackground(new Color(255, 255, 255));
-    	btn2.setForeground(new Color(192, 192, 192));
-    	btn2.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn2.setBounds(73, 0, 71, 56);
-    	btn2.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    		}
-    	});
-    	R.add(btn2);
-    	
-    	JButton btn3 = new JButton("03");
-    	btn3.setForeground(new Color(192, 192, 192));
-    	btn3.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn3.setBackground(new Color(255, 255, 255));
-    	btn3.setBounds(144, 0, 71, 56);
-    	R.add(btn3);
-    	
-    	JButton btn4 = new JButton("04");
-    	btn4.setBackground(new Color(255, 255, 255));
-    	btn4.setForeground(new Color(192, 192, 192));
-    	btn4.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn4.setBounds(215, 0, 71, 56);
-    	R.add(btn4);
-    	
-    	JButton btn5 = new JButton("05");
-    	btn5.setForeground(new Color(192, 192, 192));
-    	btn5.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn5.setBackground(new Color(255, 255, 255));
-    	btn5.setBounds(286, 0, 71, 56);
-    	R.add(btn5);
-    	
-    	JButton btn6 = new JButton("06");
-    	btn6.setBackground(new Color(255, 255, 255));
-    	btn6.setForeground(new Color(192, 192, 192));
-    	btn6.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn6.setBounds(357, 0, 71, 56);
-    	btn6.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    		}
-    	});
-    	R.add(btn6);
-    	
-    	JButton btn7 = new JButton("07");
-    	btn7.setBackground(new Color(255, 255, 255));
-    	btn7.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn7.setForeground(new Color(192, 192, 192));
-    	btn7.setBounds(2, 56, 71, 56);
-    	R.add(btn7);
-    	
-    	JButton btn8 = new JButton("08");
-    	btn8.setBackground(new Color(255, 255, 255));
-    	btn8.setForeground(new Color(192, 192, 192));
-    	btn8.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn8.setBounds(73, 56, 71, 56);
-    	R.add(btn8);
-    	
-    	JButton btn9 = new JButton("09");
-    	btn9.setBackground(new Color(255, 255, 255));
-    	btn9.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn9.setForeground(new Color(192, 192, 192));
-    	btn9.setBounds(144, 56, 71, 56);
-    	R.add(btn9);
-    	
-    	JButton btn10 = new JButton("10");
-    	btn10.setBackground(new Color(255, 255, 255));
-    	btn10.setForeground(new Color(192, 192, 192));
-    	btn10.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn10.setBounds(215, 56, 71, 56);
-    	R.add(btn10);
-    	
-    	JButton btn11 = new JButton("11");
-    	btn11.setBackground(new Color(255, 255, 255));
-    	btn11.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn11.setForeground(new Color(192, 192, 192));
-    	btn11.setBounds(286, 56, 71, 56);
-    	R.add(btn11);
-    	
-    	JButton btn12 = new JButton("12");
-    	btn12.setBackground(new Color(255, 255, 255));
-    	btn12.setForeground(new Color(192, 192, 192));
-    	btn12.setFont(new Font("Arial", Font.PLAIN, 15));
-    	btn12.setBounds(357, 56, 71, 56);
-    	R.add(btn12);
-    	
-    	JLabel lblFechaReserva = new JLabel("Fecha de reserva: ");
-    	lblFechaReserva.setBounds(18, 35, 111, 18);
-    	add(lblFechaReserva);
-    	
-    	JComboBox comboBox = new JComboBox();
-    	comboBox.setBounds(128, 31, 75, 22);
-    	add(comboBox);
-    	
-    	JLabel lblDisponible = new JLabel(" Disponible ");
-    	lblDisponible.setBounds(251, 53, 77, 14);
-    	add(lblDisponible);
-    	
-    	lblDisponibleColor = new JLabel("");
-    	lblDisponibleColor.setBackground(new Color(255, 255, 255));
-    	lblDisponibleColor.setOpaque(true);
-    	lblDisponibleColor.setBounds(307, 53, 21, 14);
-    	add(lblDisponibleColor);
-    	
-    	JLabel lblNewLabel = new JLabel("Ocupado");
-    	lblNewLabel.setBounds(349, 53, 67, 14);
-    	add(lblNewLabel);
-    	
-    	JLabel lblDisponibleColor_1 = new JLabel("");
-    	lblDisponibleColor_1.setOpaque(true);
-    	lblDisponibleColor_1.setBackground(new Color(255, 128, 128));
-    	lblDisponibleColor_1.setBounds(406, 53, 21, 14);
-    	add(lblDisponibleColor_1);
-    	
-    	CustomButton btnNewButton_11 = new CustomButton("Reservar");
-    	btnNewButton_11.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    		}
-    	});
-    	btnNewButton_11.setBounds(338, 247, 89, 23);
-    	add(btnNewButton_11);
-    	
-    	textField = new JTextField();
-    	textField.setBackground(new Color(192, 192, 192));
-    	textField.setOpaque(false);
-    	textField.setSelectedTextColor(new Color(192, 192, 192));
-    	textField.setBounds(266, 248, 62, 20);
-    	add(textField);
-    	textField.setColumns(10);
-    	
-    	JLabel lblNewLabel_1 = new JLabel("Lugar reservado");
-    	lblNewLabel_1.setForeground(new Color(64, 0, 128));
-    	lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 11));
-    	lblNewLabel_1.setBounds(151, 251, 105, 14);
-    	add(lblNewLabel_1);
-    	
-    	
+	public ReserveView() {		
+		controller = new ReservationController();
+		parkingList = controller.getParkingListWithReservations(LocalDate.now());
+		parkingPanel = new JPanel();
+		parkingPanel.setLayout(calculateGridLayout());
+		parkingPanel.setBorder(new EmptyBorder(gridGap ,gridGap ,gridGap ,gridGap));
+		renderGrid();
+		
+		now = LocalDate.now();
+		
+		LocalDate[] dateArr = {now, now.plusDays(1), now.plusDays(2)};		
+		cmbDate = new JComboBox<>(dateArr);
+		cmbDate.addActionListener(e -> setFilter(e));
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setOpaque(false);
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(new JLabel("Fecha de reserva"));
+		topPanel.add(cmbDate);
+		
+		txtValue = new JTextField();
+		txtValue.setColumns(5);
+		txtValue.setPreferredSize(new Dimension(80, 30));
+		txtValue.setBorder(BorderFactory.createLineBorder(ThemeStyles.$primaryColor, 2));
+		txtValue.setFont(ThemeStyles.lgFont);
+		txtValue.setEditable(false);
+		
+		CustomButton submitBtn = new CustomButton("Reservar");
+		submitBtn.setFont(ThemeStyles.lgFont);
+		submitBtn.addActionListener(e -> submitAction());
+				
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setOpaque(false);
+		bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		bottomPanel.add(new JLabel("Lugar reservado"));
+		bottomPanel.add(txtValue);
+		bottomPanel.add(submitBtn);
+		
+    	setLayout(new BorderLayout(10,10));
+    	add(topPanel, BorderLayout.NORTH);
+    	add(parkingPanel, BorderLayout.CENTER);
+    	add(bottomPanel, BorderLayout.SOUTH);
+	}
+	
+	private void setFilter(ActionEvent e) {
+		LocalDate date = (LocalDate) cmbDate.getSelectedItem();
+	    parkingList = controller.getParkingListWithReservations(date);
+	    
+	    parkingPanel.removeAll();
+	    parkingPanel.setLayout(calculateGridLayout());
+	    renderGrid();
+
+	    parkingPanel.revalidate();
+	    parkingPanel.repaint();
+	}
+
+	private void submitAction() {
+		if(parkingSelected.getId() != 0) {						
+			Reservation newReservation = new Reservation(parkingSelected.getId(), (LocalDate)cmbDate.getSelectedItem());
+			ReservationController controller = new ReservationController();
+			try {
+				controller.registerReservation(newReservation);
+				new CustomAlert("Tu reservacion ha sido realizada con exito.\n"
+								+ "Has reservado el estacionamiento " 
+								+ parkingSelected.getLabel(), AlertType.SUCCESS);
+				
+				MainDialog.getInstance().dispose();
+			} catch (Exception e) {
+				new CustomAlert(e.getMessage(), AlertType.ERROR);				
+			}			
+		} else {
+			new CustomAlert("Selecciona un estacionamiento disponible", AlertType.NOTICE);
+		}	
+	}
+
+	private void renderGrid() {
+		for(Parking parking:parkingList) {
+			ParkingItem item = new ParkingItem(parking, this);
+	        parkingPanel.add(item);
+		}
+	}
+
+	private GridLayout calculateGridLayout() {
+		int numElements = parkingList.size();
+		int columns = numElements;
+		int rows = 1;
+		
+		if(numElements > maxNumColumns) {
+			rows = (int) Math.ceil((double) numElements / maxNumColumns);
+			columns = (int) Math.ceil((double) numElements / rows);	
+		}		
+		return new GridLayout(rows, columns, gridGap, gridGap);
+	}
+	
+	public void setParkingSelected(Parking selected) {
+		txtValue.setText(selected.getLabel());
+		parkingSelected = selected;
 	}
 }

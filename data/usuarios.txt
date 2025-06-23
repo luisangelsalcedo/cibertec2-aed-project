@@ -1,6 +1,6 @@
 Id,Name,UserName,Password,Permission,LoginAttempt,isUserLock
 1,administrador,seemc9,12345678,administrador,0,false
-2,usuario,rquiroga,nu3v0P@ss,usuario,0,false
-3,Luis Salcedo,lsalcedo,12345678,usuario,6,true
-4,usuario,rroca,1231423sdf,usuario,0,false
-5,usuario,cmora,cmorapassword,usuario,0,false
+2,Roberto Quiroga,rquiroga,12345678,usuario,0,false
+3,Luis Salcedo,lsalcedo,12345678,usuario,0,false
+4,Raul Roca,rroca,12345678,usuario,0,false
+5,Carlos Mora,cmora,12345678,usuario,0,false
