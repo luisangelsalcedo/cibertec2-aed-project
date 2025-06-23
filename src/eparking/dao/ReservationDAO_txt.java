@@ -33,9 +33,9 @@ public class ReservationDAO_txt implements IReservationDAO {
 	}
 
 	@Override
-	public List<Reservation> getAllReservationsByUser(User user) {
+	public List<Reservation> getAllReservationsByUser(int userID) {
 		return reservationList.stream()
-				.filter(reservation -> reservation.getUserId() == user.getId())
+				.filter(reservation -> reservation.getUserId() == userID)
 				.collect(Collectors.toList());
 	}
 
@@ -58,10 +58,11 @@ public class ReservationDAO_txt implements IReservationDAO {
 	public void insertReservation(Reservation reservation) {
 		reservation.setId(generateNewId());		
 
-		if(!hasOtherPenddingReservation(AuthController.getLoggedUser())) {		
+		if(!hasOtherPenddingReservation(reservation)) {		
 			reservationList.add(reservation);
 			writeDataToFile();
-		} else System.out.println("Ya tienes una reservacion pendiente.");
+		} else throw new IllegalArgumentException("No puedes registrar más de una reserva por día.\n" 
+												+ "Ya tienes una reserva activa para esta fecha.");
 	}
 
 	@Override
@@ -115,9 +116,10 @@ public class ReservationDAO_txt implements IReservationDAO {
 	    }	
 	}
 
-	private boolean hasOtherPenddingReservation(User user) {
-    	for(Reservation reservation : getAllReservationsByUser(user)) {
-    		if(reservation.getStatus().equals(ReservationStatus.PENDING)) return true;
+	private boolean hasOtherPenddingReservation(Reservation reservation) {
+    	for(Reservation current : getAllReservationsByUser(reservation.getUserId())) {
+    		if(current.getStatus().equals(ReservationStatus.PENDING) &&
+    		current.getCreationDate().equals(reservation.getCreationDate())) return true;
     	}
     	return false;
     }

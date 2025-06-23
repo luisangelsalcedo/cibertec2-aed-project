@@ -10,7 +10,7 @@ public interface IReservationDAO {
 	void insertReservation(Reservation reservation);
 	void updateReservation(Reservation reservation);
 	List<Reservation> getAllReservations();
-	List<Reservation> getAllReservationsByUser(User user);
+	List<Reservation> getAllReservationsByUser(int userID);
 	List<Reservation> getAllReservationsByDate(LocalDate date);
 	Reservation getReservationsById(int id);
 }
