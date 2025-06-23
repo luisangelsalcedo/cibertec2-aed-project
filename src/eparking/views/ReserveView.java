@@ -103,6 +103,9 @@ public class ReserveView extends JPanel {
 								+ "Has reservado el estacionamiento " 
 								+ parkingSelected.getLabel(), AlertType.SUCCESS);
 				
+				// Disparar evento global
+		        EventSystem.triggerDashboardRefresh();
+				
 				MainDialog.getInstance().dispose();
 			} catch (Exception e) {
 				new CustomAlert(e.getMessage(), AlertType.ERROR);				

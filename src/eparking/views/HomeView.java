@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import eparking.controllers.AuthController;
+import eparking.controllers.ReservationController;
+import eparking.utils.EventSystem;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
 import eparking.views.components.Brand;
@@ -27,6 +29,7 @@ public class HomeView extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	JPanel dashboardPanel;
+	private ReservationController controller;
 
 	public HomeView() {
 		setTitle(RootData.AppTitle + " - Bienvenido");
@@ -46,6 +49,9 @@ public class HomeView extends JFrame{
 		dashboardPanel.setOpaque(false);
 		dashboardPanel.setLayout(new GridLayout(3, 1, 20, 20));
 		dashboardPanel.setBorder(new EmptyBorder(40,160,0,80));
+		
+		// Suscribirse al evento global de refresco del dashboard
+	    EventSystem.onDashboardRefresh((ignore) -> addDashboard());
 		addDashboard();
 		
 		MainLayoutPanel mainLayout = new MainLayoutPanel();
@@ -82,9 +88,13 @@ public class HomeView extends JFrame{
 		ImageIcon icon2 = new ImageIcon(getClass().getResource(RootData.sourcePath + "reservationIcon.png"));
 		ImageIcon icon3 = new ImageIcon(getClass().getResource(RootData.sourcePath + "availableIcon.png"));
 
+		controller = new ReservationController();
 		
-		dashboardPanel.add(new DashboardItem(5, "Vehiculos estacionados", icon1));
-		dashboardPanel.add(new DashboardItem(8, "Reservas realizadas", icon2));
-		dashboardPanel.add(new DashboardItem(32, "Lugares disponibles", icon3));
+		dashboardPanel.removeAll();
+		dashboardPanel.revalidate();
+		dashboardPanel.repaint();
+		dashboardPanel.add(new DashboardItem(controller.getTodayInProgressReservationsCount(), "Vehiculos estacionados", icon1));
+		dashboardPanel.add(new DashboardItem(controller.getTodayCurrentReservationsCount(), "Reservas realizadas", icon2));
+		dashboardPanel.add(new DashboardItem(controller.getTodayAvailableParkingCount(), "Lugares disponibles", icon3));
 	}
 }
