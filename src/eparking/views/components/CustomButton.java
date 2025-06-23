@@ -2,10 +2,8 @@ package eparking.views.components;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
-
 import eparking.utils.ThemeStyles;
 
 public class CustomButton extends JButton{
@@ -18,8 +16,7 @@ public class CustomButton extends JButton{
 		setForeground(ThemeStyles.$white);
 		setBorder(new EmptyBorder(5,15,5,15));
 		setVisible(true);
-		setFocusable(false);
-		
+		setFocusable(false);		
 		setFocusPainted(false);
 	    setBorderPainted(false);
 	    setContentAreaFilled(true);
@@ -51,7 +48,5 @@ public class CustomButton extends JButton{
                 setForeground(ThemeStyles.$white);
             }
         });
-	}
-	
-	
+	}	
 }

@@ -1,7 +1,6 @@
 package eparking.views;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -12,7 +11,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import eparking.controllers.AuthController;
 import eparking.controllers.ReservationController;
 import eparking.utils.EventSystem;

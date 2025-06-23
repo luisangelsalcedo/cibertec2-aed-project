@@ -45,5 +45,4 @@ public class Footer extends JPanel{
 		setOpaque(false);
 		setVisible(true);
 	}
-	
 }

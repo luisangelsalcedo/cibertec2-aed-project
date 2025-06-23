@@ -18,9 +18,7 @@ public class MainLayoutPanel extends JPanel {
     private Component leftBottomComponent = null;
     private Component rightComponent = null;
 
-	public MainLayoutPanel() {
-		
-        
+	public MainLayoutPanel() {        
         leftPanelTop = new JPanel();
         leftPanelTop.setLayout(new FlowLayout(FlowLayout.LEFT));
         leftPanelTop.setOpaque(false);
@@ -84,5 +82,3 @@ public class MainLayoutPanel extends JPanel {
         repaint();
     }
 }
-
-

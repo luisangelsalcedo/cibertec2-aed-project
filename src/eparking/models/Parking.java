@@ -7,7 +7,6 @@ public  class Parking {
 	private String label;
 	private ParkingStatus status;
 	
-	
 	public Parking(int id, String label, ParkingStatus status) {
 		this.id = id;
 		this.label = label;
@@ -40,5 +39,4 @@ public  class Parking {
 	public void setStatus(ParkingStatus status) {
 		this.status = status;
 	}
-	
 }

@@ -4,14 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 import eparking.controllers.AuthController;
-import eparking.dao.UserDAO_txt;
 import eparking.enums.AlertType;
 import eparking.utils.ThemeStyles;
 import eparking.views.AboutUsView;
@@ -103,7 +100,6 @@ public class MainMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub  
 		Object source = e.getSource();
 		String sourceTitle = ((JMenuItem)source).getText();		
 		
@@ -129,7 +125,10 @@ public class MainMenu extends JMenuBar implements ActionListener {
 			MainDialog.getInstance().showView(new CreateUserView());
 		}
 		if(source == mntmCerrarSesion) {			
-			String message = "Nos vemos, " + AuthController.getLoggedUser().getName() + ". ¡Vuelve pronto!";
+			String message = "Nos vemos, " 
+							+ AuthController.getLoggedUser().getName() 
+							+ ". ¡Vuelve pronto!";
+			
 			new CustomAlert(message, AlertType.DEFAULT);
 			
 			AuthController.logout();
@@ -140,7 +139,6 @@ public class MainMenu extends JMenuBar implements ActionListener {
 			loginView.setVisible(true);
 		} else {
 			MainDialog.getInstance().setTitle(sourceTitle);
-		}
-				
+		}	
 	}
 }

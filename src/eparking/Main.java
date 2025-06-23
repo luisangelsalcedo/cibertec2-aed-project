@@ -1,7 +1,6 @@
 package eparking;
 
 import java.awt.EventQueue;
-
 import eparking.views.LoginView;
 
 public class Main {

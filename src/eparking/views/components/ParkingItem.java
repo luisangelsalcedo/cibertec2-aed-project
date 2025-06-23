@@ -18,8 +18,7 @@ public class ParkingItem extends JButton{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel label;
-	public static ParkingItem selected;
-	
+	public static ParkingItem selected;	
 
 	public ParkingItem(Parking element, ReserveView parent) {
 		
@@ -42,8 +41,7 @@ public class ParkingItem extends JButton{
 			}			
 			selected = this;
 			setEnabled(false);
-			setSelectedStyle(this);
-			
+			setSelectedStyle(this);			
 			parent.setParkingSelected(element);
 		});
 	
@@ -63,8 +61,7 @@ public class ParkingItem extends JButton{
 			});
 		} else {
 			setBusyStyle(this);
-		}
-		
+		}		
 		setFocusable(false);		
 		setFocusPainted(false);
 	    setBorderPainted(false);

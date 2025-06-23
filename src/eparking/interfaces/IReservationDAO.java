@@ -2,9 +2,7 @@ package eparking.interfaces;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import eparking.models.Reservation;
-import eparking.models.User;
 
 public interface IReservationDAO {
 	void insertReservation(Reservation reservation);

@@ -1,9 +1,7 @@
 package eparking.views;
 
 import java.awt.EventQueue;
-
 import javax.swing.JPanel;
-
 import eparking.views.components.CustomButton;
 import eparking.views.components.MainDialog;
 import javax.swing.JButton;
@@ -16,9 +14,7 @@ import javax.swing.BoxLayout;
 import java.awt.Color;
 
 public class CurrentReservationView extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -671525189399650072L;
 	
 	private JTextField textField;
@@ -114,8 +110,7 @@ public class CurrentReservationView extends JPanel {
     		}
     	});
     	
-	}
-    
+	}    
     
     public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

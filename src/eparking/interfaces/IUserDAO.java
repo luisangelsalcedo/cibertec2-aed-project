@@ -1,7 +1,6 @@
 package eparking.interfaces;
 
 import java.util.List;
-
 import eparking.models.User;
 
 public interface IUserDAO {

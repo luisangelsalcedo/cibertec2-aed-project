@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import eparking.enums.Permission;
 import eparking.interfaces.IUserDAO;
 import eparking.models.User;
@@ -115,7 +114,6 @@ public class UserDAO implements IUserDAO {
 		return null;
 	}
 
-
 	@Override
 	public void insertUser(User user) {
 		// TODO Auto-generated method stub
@@ -156,7 +154,4 @@ public class UserDAO implements IUserDAO {
             System.out.println("Error al actualizar usuario: " + e.getMessage());
         }
 	}
-	
-	
-
 }

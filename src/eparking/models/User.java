@@ -85,8 +85,4 @@ public class User {
 	public void setUserLock(boolean userLock) {
 		this.userLock = userLock;
 	}
-
-	
-
-	
 }

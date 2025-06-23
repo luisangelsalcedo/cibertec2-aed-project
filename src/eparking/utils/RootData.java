@@ -2,7 +2,6 @@ package eparking.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import eparking.models.GroupMember;
 
 public class RootData {
@@ -16,11 +15,10 @@ public class RootData {
 		sourcePath = "/assets/";
 		version = "1.0.0";
 		
-//		GroupMember
-		
+		// GroupMember		
 		groupList.add(new GroupMember("i202501544 - ", "Luis Angel Salcedo Gavidia"));
-		groupList.add(new GroupMember("i202502813 - ", "Diana Miluska Gonzales Pariona"));
 		groupList.add(new GroupMember("i202502761 - ", "Jarumi EstelaCapcha Pariona"));
+		groupList.add(new GroupMember("i202502813 - ", "Diana Miluska Gonzales Pariona"));
 		groupList.add(new GroupMember("i202502899 - ", "Sara SabinaArias Gutierrez"));
 		groupList.add(new GroupMember("i202221187 - ", "JesusRivera Melendez"));
 	}

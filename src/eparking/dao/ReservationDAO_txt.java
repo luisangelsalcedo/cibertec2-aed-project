@@ -10,11 +10,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import eparking.controllers.AuthController;
 import eparking.enums.ReservationStatus;
 import eparking.interfaces.IReservationDAO;
 import eparking.models.Reservation;
-import eparking.models.User;
 
 public class ReservationDAO_txt implements IReservationDAO {
 	
@@ -111,6 +109,4 @@ public class ReservationDAO_txt implements IReservationDAO {
 	        System.out.println("Error guardando usuario: " + e.getMessage());
 	    }	
 	}
-
-	
 }

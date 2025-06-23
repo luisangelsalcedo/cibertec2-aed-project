@@ -11,7 +11,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import eparking.controllers.AuthController;
-import eparking.dao.UserDAO;
 import eparking.dao.UserDAO_txt;
 import eparking.enums.AlertType;
 import eparking.utils.RootData;
@@ -27,7 +26,6 @@ public class LoginForm extends JPanel{
 	
 	public LoginForm(JFrame parent) {
 		this.parent = parent;
-
 		
 		JLabel lblUserName = new JLabel("Usuario:");
 		lblUserName.setForeground(ThemeStyles.$white);
@@ -68,8 +66,7 @@ public class LoginForm extends JPanel{
 		btnSubmit.addActionListener(e->submitAction());
 		
 		JLabel lblIcon = new JLabel();
-		lblIcon.setIcon(new ImageIcon(getClass().getResource(RootData.sourcePath + "lockIcon.png")));
-		
+		lblIcon.setIcon(new ImageIcon(getClass().getResource(RootData.sourcePath + "lockIcon.png")));		
 		
 		setBackground(ThemeStyles.$primaryColor);
 		setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -106,7 +103,6 @@ public class LoginForm extends JPanel{
 			new CustomAlert(e.getMessage(), AlertType.ERROR);
 		}
 
-
 		cleanTextFields();
 		return null;
 	}
@@ -115,5 +111,4 @@ public class LoginForm extends JPanel{
 		txtUserName.setText(""); 
 		txtPassword.setText("");
 	}
-	
 }

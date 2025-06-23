@@ -15,10 +15,8 @@ public class ThemeStyles {
 	public static Color $gray;
 	public static Color $dangerColor;
 	public static Color $infoColor;
-	public static Color $successColor;
-	
-	public static URL favicon;
-	
+	public static Color $successColor;	
+	public static URL favicon;	
 	public static Font xsFont;
 	public static Font smFont;
 	public static Font mdFont;

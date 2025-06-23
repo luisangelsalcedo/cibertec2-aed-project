@@ -32,7 +32,6 @@ public class LoginView extends JFrame{
 		mainImage.setIcon(new ImageIcon(getClass().getResource(RootData.sourcePath + "imageParking.png")));
 		mainImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		
 		WelcomeMessage welcomeMessage = new WelcomeMessage("Reserva tu\nEstacionamiento", "Encuentra y reserva tu espacio\nfácilmente antes de llegar.");
 		LoginForm loginform = new LoginForm(this);
 		Footer footer = new Footer();		

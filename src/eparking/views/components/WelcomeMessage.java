@@ -12,9 +12,7 @@ public class WelcomeMessage extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
-	public WelcomeMessage(String title, String text) {
-		
-		
+	public WelcomeMessage(String title, String text) {		
 	    JTextPane tpnTitle = new JTextPane();
 	    tpnTitle.setText(title);
 	    tpnTitle.setForeground(ThemeStyles.$primaryColor);
@@ -37,8 +35,7 @@ public class WelcomeMessage extends JPanel{
 	    JPanel linePanel = new JPanel();
 	    linePanel.setLayout(new BorderLayout());
 	    linePanel.setPreferredSize(new Dimension(4,4));
-	    linePanel.add(linePanel2, BorderLayout.EAST);
-	    
+	    linePanel.add(linePanel2, BorderLayout.EAST);	    
 	    
 	    JPanel messagePanel = new JPanel();
 	    messagePanel.setOpaque(false);

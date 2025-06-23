@@ -22,7 +22,7 @@ public class AboutUsView extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public AboutUsView() {				
-//		text general description
+		// text general description
 		String description = "Esta aplicación ha sido desarrollada con fines educativos como parte del curso \"Algoritmos y estructura de datos\", dictado por el docente Marco Diaz Zavala en el Instituto Cibertec.\rEl proyecto tiene como finalidad aplicar conceptos teóricos-prácticos del curso, enfocándose en el diseño de algoritmos eficientes y la correcta utilización de estructuras de datos para resolver problemas comunes de programación.";
 		JTextPane textDescription = new JTextPane();
 		textDescription.setEditable(false);
@@ -65,7 +65,7 @@ public class AboutUsView extends JPanel {
 		descriptionPanel.setLayout(new GridBagLayout());
 		descriptionPanel.add(descriptionPanelContent);
 		
-//		set buttons
+		// set buttons
 		CustomButton showDesignBtn = new CustomButton("Ver diseño");
 		showDesignBtn.addActionListener(e->{
 			try {
@@ -93,7 +93,7 @@ public class AboutUsView extends JPanel {
 			}
 		});
 		
-//		set panels
+		// set panels
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout());
 		topPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
