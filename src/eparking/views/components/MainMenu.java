@@ -107,9 +107,6 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		Object source = e.getSource();
 		String sourceTitle = ((JMenuItem)source).getText();		
 		
-		// debug
-		System.out.print(sourceTitle + "\n");
-		
 		if(source == mntmReservar) {
 			MainDialog.getInstance().showView(new ReserveView());
 		}
