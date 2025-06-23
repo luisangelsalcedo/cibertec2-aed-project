@@ -34,7 +34,7 @@ public class ThemeStyles {
 		$accentLight		= new Color(175, 151, 207);
 		$accentDark			= new Color(90, 66, 122);
 		$white 				= new Color(255, 255, 255);
-		$gray 				= new Color(217, 217, 217);
+		$gray 				= new Color(200, 200, 200);
 		$dangerColor 		= new Color(230, 141, 141);
 		$infoColor 			= new Color(155, 182, 0);
 		$successColor 		= new Color(116, 202, 101);

@@ -32,15 +32,16 @@ public class ReserveView extends JPanel {
 	private List<Parking> parkingList;
 	private JComboBox<LocalDate> cmbDate;
 	private ReservationController controller;
-	private JTextField txtValue;
 	private JPanel parkingPanel;
-	private LocalDate now;;
+	private LocalDate now;
+	private JTextField txtValue;
 	private Parking parkingSelected;
 	
 	public ReserveView() {		
 		controller = new ReservationController();
 		parkingList = controller.getParkingListWithReservations(LocalDate.now());
 		parkingPanel = new JPanel();
+		parkingPanel.setBackground(ThemeStyles.$gray);
 		parkingPanel.setLayout(calculateGridLayout());
 		parkingPanel.setBorder(new EmptyBorder(gridGap ,gridGap ,gridGap ,gridGap));
 		renderGrid();
@@ -82,6 +83,8 @@ public class ReserveView extends JPanel {
 	}
 	
 	private void setFilter(ActionEvent e) {
+		clean();
+		
 		LocalDate date = (LocalDate) cmbDate.getSelectedItem();
 	    parkingList = controller.getParkingListWithReservations(date);
 	    
@@ -94,7 +97,7 @@ public class ReserveView extends JPanel {
 	}
 
 	private void submitAction() {
-		if(parkingSelected.getId() != 0) {						
+		if(parkingSelected != null) {						
 			Reservation newReservation = new Reservation(parkingSelected.getId(), (LocalDate)cmbDate.getSelectedItem());
 			ReservationController controller = new ReservationController();
 			try {
@@ -137,5 +140,10 @@ public class ReserveView extends JPanel {
 	public void setParkingSelected(Parking selected) {
 		txtValue.setText(selected.getLabel());
 		parkingSelected = selected;
+	}
+	
+	private void clean() {
+		txtValue.setText("");
+		parkingSelected = null;
 	}
 }
