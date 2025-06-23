@@ -18,7 +18,7 @@ import eparking.models.User;
 
 public class ReservationDAO_txt implements IReservationDAO {
 	
-    private final String filePath =  "data/reservaciones.txt";
+    private final String filePath = "data/reservaciones.txt";
 	private final String headers = "Id,UserId,ParkingId,Status,CreationDate,StartTime,EndTime";
 	private List<Reservation> reservationList;
 
@@ -56,13 +56,9 @@ public class ReservationDAO_txt implements IReservationDAO {
 
 	@Override
 	public void insertReservation(Reservation reservation) {
-		reservation.setId(generateNewId());		
-
-		if(!hasOtherPenddingReservation(reservation)) {		
-			reservationList.add(reservation);
-			writeDataToFile();
-		} else throw new IllegalArgumentException("No puedes registrar más de una reserva por día.\n" 
-												+ "Ya tienes una reserva activa para esta fecha.");
+		reservation.setId(generateNewId());				
+		reservationList.add(reservation);
+		writeDataToFile();
 	}
 
 	@Override
@@ -116,11 +112,5 @@ public class ReservationDAO_txt implements IReservationDAO {
 	    }	
 	}
 
-	private boolean hasOtherPenddingReservation(Reservation reservation) {
-    	for(Reservation current : getAllReservationsByUser(reservation.getUserId())) {
-    		if(current.getStatus().equals(ReservationStatus.PENDING) &&
-    		current.getCreationDate().equals(reservation.getCreationDate())) return true;
-    	}
-    	return false;
-    }
+	
 }
