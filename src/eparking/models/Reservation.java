@@ -13,15 +13,19 @@ public class Reservation {
     private LocalDate creationDate;
     private LocalTime startTime;
     private LocalTime endTime;
-
-    public Reservation() {}
     
-    public Reservation(int parkingId){
-        this.setUserId(1); // logged user
+    public Reservation(int parkingId, LocalDate creationDate){
+        this.setUserId(AuthController.getLoggedUser().getId()); // logged user
         this.setParkingId(parkingId);
+        this.setCreationDate(creationDate);
         status = ReservationStatus.PENDING;
-        creationDate = LocalDate.now();
     }
+    
+    public Reservation(int parkingId) {
+    	this(parkingId, LocalDate.now());
+    }
+    
+    public Reservation() {}
 
     // getters
 	public int getId() {
