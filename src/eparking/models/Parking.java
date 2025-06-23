@@ -18,6 +18,10 @@ public  class Parking {
 		this(1, label, ParkingStatus.AVAILABLE);
 	}	
 	
+	public Parking(Parking p) {
+		this(p.getId(), p.getLabel(), p.getStatus());
+	}	
+	
 	public int getId() {
 		return id;
 	}
