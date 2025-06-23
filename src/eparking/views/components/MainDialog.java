@@ -43,9 +43,6 @@ public class MainDialog extends JDialog {
 		getContentPane().add(view);
 		pack();
 		setVisible(true);
-	}
-	
-	public void closeDialog() {
-		this.dispose();
+		setLocationRelativeTo(null);
 	}
 }
