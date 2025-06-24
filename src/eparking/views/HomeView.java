@@ -17,8 +17,10 @@ import eparking.utils.EventSystem;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
 import eparking.views.components.Brand;
+import eparking.views.components.CustomButton;
 import eparking.views.components.DashboardItem;
 import eparking.views.components.Footer;
+import eparking.views.components.MainDialog;
 import eparking.views.components.MainLayoutPanel;
 import eparking.views.components.MainMenu;
 import eparking.views.components.WelcomeMessage;
@@ -52,10 +54,20 @@ public class HomeView extends JFrame{
 	    EventSystem.onDashboardRefresh((ignore) -> addDashboard());
 		addDashboard();
 		
+		CustomButton reserveBtn = new CustomButton("Si, quiero reservar");
+		reserveBtn.setFont(ThemeStyles.xlFont);
+		reserveBtn.addActionListener(e -> openReserveView());
+		
+		JPanel welcomePanel = new JPanel();
+		welcomePanel.setOpaque(false);
+		welcomePanel.setLayout(new BorderLayout());
+		welcomePanel.add(welcomeMessage, BorderLayout.CENTER);
+		welcomePanel.add(reserveBtn, BorderLayout.SOUTH);
+		
 		MainLayoutPanel mainLayout = new MainLayoutPanel();
 		mainLayout.addRight(dashboardPanel);
 		mainLayout.addLeftTop(brand);
-		mainLayout.addLeftBottom(welcomeMessage);
+		mainLayout.addLeftBottom(welcomePanel);
 		
 		JPanel centerPanel = new JPanel();
 		centerPanel.setOpaque(false);
@@ -81,6 +93,11 @@ public class HomeView extends JFrame{
 		setContentPane(mainPanel);
 	}
 	
+	private void openReserveView() {
+		MainDialog.getInstance().showView(new ReserveView());
+		MainDialog.getInstance().setTitle("Reservar estacionamiento");
+	}
+
 	private void addDashboard() {
 		ImageIcon icon1 = new ImageIcon(getClass().getResource(RootData.sourcePath + "parkedIcon.png"));
 		ImageIcon icon2 = new ImageIcon(getClass().getResource(RootData.sourcePath + "reservationIcon.png"));
