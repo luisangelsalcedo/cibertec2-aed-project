@@ -21,32 +21,34 @@ public class CustomButton extends JButton{
 	    setBorderPainted(false);
 	    setContentAreaFilled(true);
 	    setOpaque(true);
+	    
+		if(this.isEnabled()) {
+			// hover effect
+	        addMouseListener(new MouseAdapter() {
+	        	@Override
+	    	    public void mousePressed(MouseEvent e) {
+	    	        setBackground(ThemeStyles.$accent);
+	                setForeground(ThemeStyles.$white);
+	    	    }
+	        	
+	        	@Override
+	            public void mouseReleased(MouseEvent e) {
+	                setBackground(ThemeStyles.$accentLight);
+	                setForeground(ThemeStyles.$white);
+	            }
+	        	
+	            @Override
+	            public void mouseEntered(MouseEvent e) {
+	                setBackground(ThemeStyles.$accentLight);
+	                setForeground(ThemeStyles.$white);
+	            }
 
-		// hover effect
-        addMouseListener(new MouseAdapter() {
-        	@Override
-    	    public void mousePressed(MouseEvent e) {
-    	        setBackground(ThemeStyles.$accent);
-                setForeground(ThemeStyles.$white);
-    	    }
-        	
-        	@Override
-            public void mouseReleased(MouseEvent e) {
-                setBackground(ThemeStyles.$accentLight);
-                setForeground(ThemeStyles.$white);
-            }
-        	
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(ThemeStyles.$accentLight);
-                setForeground(ThemeStyles.$white);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(ThemeStyles.$accent);
-                setForeground(ThemeStyles.$white);
-            }
-        });
+	            @Override
+	            public void mouseExited(MouseEvent e) {
+	                setBackground(ThemeStyles.$accent);
+	                setForeground(ThemeStyles.$white);
+	            }
+	        });
+		}
 	}	
 }
