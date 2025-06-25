@@ -31,6 +31,11 @@ public class UserDAO_txt implements IUserDAO {
 	public User findUserByUserName(String userName) {
 		return userList.stream().filter(user -> user.getUserName().equals(userName)).findFirst().orElse(null);
 	}
+	
+	@Override
+	public User findUserById(int id) {
+		return userList.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
+	}
 
 	@Override
 	public void insertUser(User user) {			
@@ -46,6 +51,7 @@ public class UserDAO_txt implements IUserDAO {
 	@Override
 	public void updateUser(User user) {
 		userList.replaceAll(current -> current.getId() == user.getId() ? user : current);
+		writeDataToFile();
 	}
 
 	private int generateNewId() {	

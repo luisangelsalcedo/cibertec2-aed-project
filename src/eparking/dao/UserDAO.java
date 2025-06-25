@@ -42,7 +42,6 @@ public class UserDAO implements IUserDAO {
 
     @Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
 		List<User> userList = new ArrayList<>();
     	
         String sql = "SELECT * FROM users";        
@@ -76,7 +75,6 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public User findUserByUserName(String userName) {
-		// TODO Auto-generated method stub		
 		String sql = "SELECT * FROM users WHERE userName = ?"; 
 		
 		try (Connection conn = connect();
@@ -87,7 +85,7 @@ public class UserDAO implements IUserDAO {
 			
 			if (rs.next()) {
 				User userFound;
-				
+				int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String permissionName = rs.getString("permission");
@@ -101,7 +99,7 @@ public class UserDAO implements IUserDAO {
                 } else {
                 	userFound = User.createUser(userName, password);
                 }
-                
+                userFound.setId(id);
                 userFound.setName(name);
                 userFound.setUserLock(userLock);
                 userFound.loginAttempt = loginAttempt;                
@@ -113,10 +111,48 @@ public class UserDAO implements IUserDAO {
 		
 		return null;
 	}
+	
+	@Override
+	public User findUserById(int id) {
+		String sql = "SELECT * FROM users WHERE id = ?"; 
+		
+		try (Connection conn = connect();
+				 PreparedStatement pstmt = conn.prepareStatement(sql) ) {
+				
+				pstmt.setInt(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				
+				if (rs.next()) {
+					User userFound;					
+	                String name = rs.getString("name");
+	                String userName = rs.getString("userName");
+	                String password = rs.getString("password");
+	                String permissionName = rs.getString("permission");
+	                int loginAttempt = rs.getInt("loginAttempt");
+	                boolean userLock = rs.getInt("userLock") == 1 ? true : false;
+	                
+	                Permission permission = Permission.fromName(permissionName);
+	                
+	                if(permission.equals(Permission.ADMIN)) {
+	                	userFound = User.createAdmin(userName, password);
+	                } else {
+	                	userFound = User.createUser(userName, password);
+	                }
+	                userFound.setId(id);
+	                userFound.setName(name);
+	                userFound.setUserLock(userLock);
+	                userFound.loginAttempt = loginAttempt;                
+	                return userFound;
+	            }			
+			} catch (SQLException e) {
+	            System.out.println("Error al buscar usuario por nombre de usuario: " + e.getMessage());
+			}
+		
+		return null;
+	}
 
 	@Override
 	public void insertUser(User user) {
-		// TODO Auto-generated method stub
 		String sql = "INSERT INTO users(name, userName, password, permission) VALUES(?,?,?,?)";
 
         try (Connection conn = connect();
@@ -135,7 +171,6 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
 		String sql = "UPDATE users SET name = ?, password = ?, permission = ?, loginAttempt = ?, userLock = ? " 
 					+ "WHERE userName = ?";
 
