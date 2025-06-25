@@ -46,6 +46,7 @@ public class ParkingDAO_txt implements IParkingDAO{
 	@Override
 	public void updateParking(Parking parking) {
 		parkingList.replaceAll(current -> current.getId() == parking.getId() ? parking : current);
+		writeDataToFile();
 	}	
 
     private int generateNewId() {	

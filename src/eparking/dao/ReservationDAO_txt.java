@@ -62,6 +62,7 @@ public class ReservationDAO_txt implements IReservationDAO {
 	@Override
 	public void updateReservation(Reservation reservation) {
 		reservationList.replaceAll(current -> current.getId() == reservation.getId() ? reservation : current);
+		writeDataToFile();
 	}
 
 	private int generateNewId() {	
