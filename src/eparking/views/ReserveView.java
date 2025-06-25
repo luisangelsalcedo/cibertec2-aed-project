@@ -21,6 +21,7 @@ import eparking.utils.EventSystem;
 import eparking.utils.ThemeStyles;
 import eparking.views.components.CustomAlert;
 import eparking.views.components.CustomButton;
+import eparking.views.components.CustomInput;
 import eparking.views.components.MainDialog;
 import eparking.views.components.ParkingItem;
 
@@ -34,7 +35,7 @@ public class ReserveView extends JPanel {
 	private ReservationController controller;
 	private JPanel parkingPanel;
 	private LocalDate now;
-	private JTextField txtValue;
+	private CustomInput txtValue;
 	private Parking parkingSelected;
 	
 	public ReserveView() {		
@@ -58,12 +59,7 @@ public class ReserveView extends JPanel {
 		topPanel.add(new JLabel("Fecha de reserva"));
 		topPanel.add(cmbDate);
 		
-		txtValue = new JTextField();
-		txtValue.setColumns(5);
-		txtValue.setPreferredSize(new Dimension(80, 30));
-		txtValue.setBorder(BorderFactory.createLineBorder(ThemeStyles.$primaryColor, 2));
-		txtValue.setFont(ThemeStyles.lgFont);
-		txtValue.setEditable(false);
+		txtValue = new CustomInput(5, false);
 		
 		CustomButton submitBtn = new CustomButton("Reservar");
 		submitBtn.setFont(ThemeStyles.lgFont);
