@@ -114,4 +114,16 @@ public class ReservationController {
 		if(!reservation.getCreationDate().isBefore(LocalDate.now())) return true;
 		return false;
 	}
+
+	public void markOldReservarionsAsCanceled() {
+		System.out.println("Ejecutar limpieza");
+		for(Reservation activeReservation:getActiveReservations()) {
+			if(!isntOldReservations(activeReservation)) {
+				System.out.println("Se cancelo tu reserva del " + activeReservation.getCreationDate());
+				activeReservation.setStatus(ReservationStatus.CANCELED);
+				activeReservation.setEndTime(LocalTime.MAX);
+				reservationDao.updateReservation(activeReservation);
+			}
+		}
+	}
 }

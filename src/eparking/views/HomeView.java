@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import eparking.controllers.AuthController;
 import eparking.controllers.ReservationController;
+import eparking.models.Reservation;
 import eparking.utils.EventSystem;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
@@ -32,6 +36,8 @@ public class HomeView extends JFrame{
 	private ReservationController controller;
 
 	public HomeView() {
+		cleanOldReservations();
+		
 		setTitle(RootData.AppTitle + " - Bienvenido");
 		setSize(700, 480);
 		setLocationRelativeTo(null);
@@ -93,6 +99,11 @@ public class HomeView extends JFrame{
 		setContentPane(mainPanel);
 	}
 	
+	private void cleanOldReservations() {
+		ReservationController controller = new ReservationController();
+		controller.markOldReservarionsAsCanceled();
+	}
+
 	private void openReserveView() {
 		MainDialog.getInstance().showView(new ReserveView());
 		MainDialog.getInstance().setTitle("Reservar estacionamiento");
