@@ -3,6 +3,8 @@ package eparking.utils;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class ThemeStyles {
 	public static Color $primaryColor;
@@ -23,6 +25,7 @@ public class ThemeStyles {
 	public static Font lgFont;
 	public static Font xlFont;	
 	public static Font xxlFont;	
+	public static DateTimeFormatter dateFormat;
 	
 	static {
 		favicon 		= ThemeStyles.class.getResource(RootData.sourcePath + "favicon.png");
@@ -45,5 +48,7 @@ public class ThemeStyles {
 		lgFont = new Font("Tahoma", Font.PLAIN, 16);
 		xlFont = new Font("Tahoma", Font.PLAIN, 20);
 		xxlFont = new Font("Tahoma", Font.BOLD, 22);
+		
+		dateFormat = DateTimeFormatter.ofPattern("HH:mm");
 	}
 }
