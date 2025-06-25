@@ -38,7 +38,7 @@ public class CurrentReservationView extends JPanel {
 	public CurrentReservationView() {	
 		
 		controller = new ReservationController();		
-		currentReservation = controller.getCurrentReservation();
+		currentReservation = controller.getActiveReservation();
 		
 		setLayout(new GridLayout(3, 1, 10, 10));
 		setOpaque(false);

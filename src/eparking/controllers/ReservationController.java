@@ -1,6 +1,7 @@
 package eparking.controllers;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,28 +26,34 @@ public class ReservationController {
 	
 	public List<Parking> getParkingListWithReservations(LocalDate currentDate){
 		
-		List<Reservation> reservationList = new ArrayList<>(reservationDao.getAllReservationsByDate(currentDate));
-		List<Parking> parkingList = new ArrayList<>(parkingDao.getAllParkings());
-		List<Parking> parkingListWithReservations = new ArrayList<>();
+		List<Reservation> reservations = new ArrayList<>(reservationDao.getAllReservationsByDate(currentDate));
+		List<Parking> allParkings = new ArrayList<>(parkingDao.getAllParkings());
+		List<Parking> parkingsWithStatus = new ArrayList<>();
 		
-		for(Parking parking:parkingList) {
-			Parking cloneParking = new Parking(parking);
+		for(Parking parking : allParkings) {
+			Parking parkingCopy = new Parking(parking);
 			
-			for(Reservation reservation:reservationList) {
-				if(cloneParking.getId() == reservation.getParkingId() && !reservation.getStatus().equals(ReservationStatus.COMPLETE)) {
-					cloneParking.setStatus(ParkingStatus.BUSY);
-				}
-			}
-			parkingListWithReservations.add(cloneParking);
+			boolean hasActiveReservation = 
+					 reservations.stream()
+					 	.anyMatch(reservation -> 
+			                reservation.getParkingId() == parkingCopy.getId() &&
+			                !reservation.getStatus().equals(ReservationStatus.COMPLETE) &&
+			                !reservation.getStatus().equals(ReservationStatus.CANCELED)
+			            );
+			 
+			parkingCopy.setStatus(hasActiveReservation ? ParkingStatus.BUSY : ParkingStatus.AVAILABLE);
+			parkingsWithStatus.add(parkingCopy);
 		}
-		return parkingListWithReservations;
+		return parkingsWithStatus;
 	} 
 	
 	public void registerReservation(Reservation reservation) {
-		if(!hasOtherPenddingReservation(reservation)) {	
-			reservationDao.insertReservation(reservation);
-		} else throw new IllegalArgumentException("No puedes registrar más de una reserva por día.\n" 
-												+ "Ya tienes una reserva activa para esta fecha.");
+		if(hasActiveReservationOnSameDay(reservation)) {	
+			throw new IllegalArgumentException(
+				"No puedes registrar más de una reserva por día.\n" +  
+				"Ya tienes una reserva activa para esta fecha.");
+		} 
+		reservationDao.insertReservation(reservation);
 	}
 	
 	public void updateReservation(Reservation reservation) {
@@ -54,9 +61,7 @@ public class ReservationController {
 	}
 
 	public int getTodayInProgressReservationsCount(){
-		return reservationDao.getAllReservationsByDate(LocalDate.now()).stream()
-				.filter(reservation -> reservation.getStatus().equals(ReservationStatus.INPROGRESS))
-				.collect(Collectors.toList()).size();
+		return countTodayReservationsByStatus(ReservationStatus.INPROGRESS);
 	}
 
 	public int getTodayCurrentReservationsCount(){
@@ -67,9 +72,16 @@ public class ReservationController {
 		return parkingDao.getAllParkings().size() - reservationDao.getAllReservationsByDate(LocalDate.now()).size();
 	}
 	
-	public Reservation getCurrentReservation() {
-		List<Reservation> reservations = reservationDao.getAllReservationsByUser(AuthController.getLoggedUser().getId());
-		return reservations.stream().filter(current -> isActive(current))
+	public List<Reservation> getActiveReservations() {
+		return reservationDao.getAllReservationsByUser(AuthController.getLoggedUser().getId()).stream()
+			.filter(this::isActive)
+			.collect(Collectors.toList());
+			
+	}
+	
+	public Reservation getActiveReservation() {
+		return getActiveReservations().stream()
+			.filter(this::isntOldReservations)
 			.sorted(Comparator.comparing(Reservation::getCreationDate)) 
 			.findFirst()
 			.orElse(null);
@@ -82,18 +94,24 @@ public class ReservationController {
 		return new ReservationDTO(reservation, reservationUser, reservationParking);
 	}
 	
-	private boolean hasOtherPenddingReservation(Reservation reservation) {
-    	for(Reservation current : reservationDao.getAllReservationsByUser(reservation.getUserId())) {
-    		if(isActive(current) &&	hasAnotherOnSameDate(current, reservation)) return true;
-    	}
-    	return false;
+	private boolean hasActiveReservationOnSameDay(Reservation reservation) {
+		return reservationDao.getAllReservationsByUser(reservation.getUserId()).stream()
+	            .anyMatch(current -> isActive(current) && current.getCreationDate().equals(reservation.getCreationDate()));
     }
 	
 	private boolean isActive(Reservation reservation) {
-		// PENDING OR INPROGRESS
-		return (reservation.getStatus().equals(ReservationStatus.PENDING) || reservation.getStatus().equals(ReservationStatus.INPROGRESS));
+		return reservation.getStatus().equals(ReservationStatus.PENDING) || 
+			   reservation.getStatus().equals(ReservationStatus.INPROGRESS);
 	}
-	private boolean hasAnotherOnSameDate(Reservation current, Reservation compare) {
-		return current.getCreationDate().equals(compare.getCreationDate());
+	
+	private int countTodayReservationsByStatus(ReservationStatus status) {
+        return reservationDao.getAllReservationsByDate(LocalDate.now()).stream()
+            .filter(reservation -> reservation.getStatus() == status)
+            .collect(Collectors.toList()).size();
+    }
+
+	private boolean isntOldReservations(Reservation reservation){
+		if(!reservation.getCreationDate().isBefore(LocalDate.now())) return true;
+		return false;
 	}
 }
