@@ -29,19 +29,23 @@ public class ReservationDAO_txt implements IReservationDAO {
 	public List<Reservation> getAllReservations() {
 		return new ArrayList<>(reservationList);
 	}
-
+	public List<Reservation> getAllReservations(LocalDate date) {
+		return reservationList.stream()
+				.filter(reservation -> reservation.getCreationDate().equals(date))
+				.collect(Collectors.toList());	
+	}
+	
 	@Override
 	public List<Reservation> getAllReservationsByUser(int userID) {
 		return reservationList.stream()
 				.filter(reservation -> reservation.getUserId() == userID)
 				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<Reservation> getAllReservationsByDate(LocalDate date) {
+	}	
+	public List<Reservation> getAllReservationsByUser(int userID, LocalDate date) {
 		return reservationList.stream()
+				.filter(reservation -> reservation.getUserId() == userID)
 				.filter(reservation -> reservation.getCreationDate().equals(date))
-				.collect(Collectors.toList());	
+				.collect(Collectors.toList());
 	}
 
 	@Override

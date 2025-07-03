@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.time.LocalTime;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import eparking.controllers.AuthController;
 import eparking.controllers.ReservationController;
 import eparking.enums.AlertType;
 import eparking.enums.ReservationStatus;
@@ -38,7 +40,7 @@ public class CurrentReservationView extends JPanel {
 	public CurrentReservationView() {	
 		
 		controller = new ReservationController();		
-		currentReservation = controller.getActiveReservation();
+		currentReservation = controller.getActiveReservation(AuthController.getLoggedUser().getId());
 		
 		setLayout(new GridLayout(3, 1, 10, 10));
 		setOpaque(false);

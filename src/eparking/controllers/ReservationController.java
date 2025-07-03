@@ -26,7 +26,7 @@ public class ReservationController {
 	
 	public List<Parking> getParkingListWithReservations(LocalDate currentDate){
 		
-		List<Reservation> reservations = new ArrayList<>(reservationDao.getAllReservationsByDate(currentDate));
+		List<Reservation> reservations = new ArrayList<>(reservationDao.getAllReservations(currentDate));
 		List<Parking> allParkings = new ArrayList<>(parkingDao.getAllParkings());
 		List<Parking> parkingsWithStatus = new ArrayList<>();
 		
@@ -37,8 +37,7 @@ public class ReservationController {
 					 reservations.stream()
 					 	.anyMatch(reservation -> 
 			                reservation.getParkingId() == parkingCopy.getId() &&
-			                !reservation.getStatus().equals(ReservationStatus.COMPLETE) &&
-			                !reservation.getStatus().equals(ReservationStatus.CANCELED)
+			                isActive(reservation)
 			            );
 			 
 			parkingCopy.setStatus(hasActiveReservation ? ParkingStatus.BUSY : ParkingStatus.AVAILABLE);
@@ -65,23 +64,28 @@ public class ReservationController {
 	}
 
 	public int getTodayCurrentReservationsCount(){
-		return reservationDao.getAllReservationsByDate(LocalDate.now()).size();
+		return reservationDao.getAllReservations(LocalDate.now()).size();
 	}
 
 	public int getTodayAvailableParkingCount(){
-		return parkingDao.getAllParkings().size() - reservationDao.getAllReservationsByDate(LocalDate.now()).size();
+		int reservationsActiveToday = reservationDao.getAllReservations(LocalDate.now())
+				.stream()
+				.filter(this::isActive)
+				.collect(Collectors.toList()).size();
+		
+		return parkingDao.getAllParkings().size() - reservationsActiveToday;
 	}
 	
-	public List<Reservation> getActiveReservations() {
-		return reservationDao.getAllReservationsByUser(AuthController.getLoggedUser().getId()).stream()
+	public List<Reservation> getActiveReservations(int userID) {
+		return reservationDao.getAllReservationsByUser(userID).stream()
 			.filter(this::isActive)
 			.collect(Collectors.toList());
 			
 	}
 	
-	public Reservation getActiveReservation() {
-		return getActiveReservations().stream()
-			.filter(this::isntOldReservations)
+	public Reservation getActiveReservation(int userID) {
+		return getActiveReservations(userID).stream()
+			.filter(reservation -> !reservation.getCreationDate().isBefore(LocalDate.now()))
 			.sorted(Comparator.comparing(Reservation::getCreationDate)) 
 			.findFirst()
 			.orElse(null);
@@ -96,7 +100,10 @@ public class ReservationController {
 	
 	private boolean hasActiveReservationOnSameDay(Reservation reservation) {
 		return reservationDao.getAllReservationsByUser(reservation.getUserId()).stream()
-	            .anyMatch(current -> isActive(current) && current.getCreationDate().equals(reservation.getCreationDate()));
+	            .anyMatch(
+	            		current -> isActive(current) && 
+	            		current.getCreationDate().equals(reservation.getCreationDate())
+	            );
     }
 	
 	private boolean isActive(Reservation reservation) {
@@ -105,25 +112,25 @@ public class ReservationController {
 	}
 	
 	private int countTodayReservationsByStatus(ReservationStatus status) {
-        return reservationDao.getAllReservationsByDate(LocalDate.now()).stream()
+        return reservationDao.getAllReservations(LocalDate.now()).stream()
             .filter(reservation -> reservation.getStatus() == status)
             .collect(Collectors.toList()).size();
     }
-
-	private boolean isntOldReservations(Reservation reservation){
-		if(!reservation.getCreationDate().isBefore(LocalDate.now())) return true;
-		return false;
-	}
-
+	
 	public void markOldReservarionsAsCanceled() {
-		System.out.println("Ejecutar limpieza");
-		for(Reservation activeReservation:getActiveReservations()) {
-			if(!isntOldReservations(activeReservation)) {
-				System.out.println("Se cancelo tu reserva del " + activeReservation.getCreationDate());
-				activeReservation.setStatus(ReservationStatus.CANCELED);
-				activeReservation.setEndTime(LocalTime.MAX);
-				reservationDao.updateReservation(activeReservation);
+		for(Reservation reservation : reservationDao.getAllReservations()) {
+			if(
+					reservation.getCreationDate().isBefore(LocalDate.now()) &&
+					reservation.getStatus().equals(ReservationStatus.PENDING)
+			  ){
+				
+				System.out.println("Se cancelo tu reserva del " + reservation.getCreationDate());
+				reservation.setStatus(ReservationStatus.CANCELED);
+				reservation.setEndTime(LocalTime.MAX);
+				reservationDao.updateReservation(reservation);
 			}
 		}
 	}
+
+
 }
