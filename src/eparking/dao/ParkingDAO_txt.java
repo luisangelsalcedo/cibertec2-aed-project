@@ -66,7 +66,7 @@ public class ParkingDAO_txt implements IParkingDAO{
 	            parkingList.add(parking);
 	        }
 	    } catch (IOException e) {
-	        System.out.println("Error leyendo archivo: " + e.getMessage());
+	        System.out.println("Error leyendo el archivo: " + e.getMessage());
 	    }		
 	}
 
@@ -82,7 +82,7 @@ public class ParkingDAO_txt implements IParkingDAO{
 				));
 			}			
 	    } catch (IOException e) {
-	        System.out.println("Error guardando usuario: " + e.getMessage());
+	        System.out.println("Error escribiendo el archivo: " + e.getMessage());
 	    }	
 	}
 }
