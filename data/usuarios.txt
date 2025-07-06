@@ -1,6 +1,10 @@
 Id,Name,UserName,Password,Permission,LoginAttempt,isUserLock
-1,administrador,seemc9,12345678,administrador,0,false
+1,administrador,root,12345678,administrador,0,false
 2,Roberto Quiroga,rquiroga,12345678,usuario,0,false
 3,Luis Salcedo,lsalcedo,12345678,usuario,0,false
 4,Raul Roca,rroca,12345678,usuario,0,false
 5,Carlos Mora,cmora,12345678,usuario,0,false
+6,Jarumi Capcha,jarumic,12345678,usuario,0,false
+7,Diana Gonzales,dianag,12345678,usuario,0,false
+8,Sara Arias,saraa,12345678,usuario,0,false
+9,Jesus Rivera,jesusr,12345678,usuario,0,false

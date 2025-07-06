@@ -17,7 +17,7 @@ public class RootData {
 		
 		// GroupMember		
 		groupList.add(new GroupMember("i202501544 - ", "Luis Angel Salcedo Gavidia"));
-		groupList.add(new GroupMember("i202502761 - ", "Jarumi EstelaCapcha Pariona"));
+		groupList.add(new GroupMember("i202502761 - ", "Jarumi Estela Capcha Pariona"));
 		groupList.add(new GroupMember("i202502813 - ", "Diana Miluska Gonzales Pariona"));
 		groupList.add(new GroupMember("i202502899 - ", "Sara SabinaArias Gutierrez"));
 		groupList.add(new GroupMember("i202221187 - ", "Jesus Rivera Melendez"));
