@@ -11,13 +11,13 @@ import eparking.enums.ParkingStatus;
 import eparking.interfaces.IParkingDAO;
 import eparking.models.Parking;
 
-public class ParkingDAO_txt implements IParkingDAO{
+public class ParkingDAO_txt extends AbstractDAO_txt implements IParkingDAO{
     
-    private final String filePath =  "data/estacionamientos.txt";
 	private final String headers = "Id,Label,Status";
 	private List<Parking> parkingList;
 
 	public ParkingDAO_txt(){
+		super("estacionamientos.txt");
 		parkingList = new ArrayList<>();
 		loadDataFromFile();
 	}
@@ -52,8 +52,9 @@ public class ParkingDAO_txt implements IParkingDAO{
     private int generateNewId() {	
 	    return parkingList.stream().mapToInt(Parking::getId).max().orElse(0) + 1;
 	}
-
-	private void loadDataFromFile() {
+    
+    @Override
+	public void loadDataFromFile() {
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	        String txtOneLine = br.readLine(); 
 	        while ((txtOneLine = br.readLine()) != null) {
@@ -69,8 +70,9 @@ public class ParkingDAO_txt implements IParkingDAO{
 	        System.out.println("Error leyendo el archivo: " + e.getMessage());
 	    }		
 	}
-
-	private void writeDataToFile() {
+	
+	@Override
+	public void writeDataToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			writer.write(headers);
 			for(Parking parking:parkingList) {

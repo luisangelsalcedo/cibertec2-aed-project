@@ -11,13 +11,13 @@ import eparking.enums.Permission;
 import eparking.interfaces.IUserDAO;
 import eparking.models.User;
 
-public class UserDAO_txt implements IUserDAO {
+public class UserDAO_txt extends AbstractDAO_txt implements IUserDAO {
 	
-	private static final String filePath = "data/usuarios.txt";
 	private final String headers = "Id,Name,UserName,Password,Permission,LoginAttempt,isUserLock";
 	private List<User> userList;
 	
 	public UserDAO_txt() {
+		super("usuarios.txt");
 		userList = new ArrayList<>();
 		loadDataFromFile();		
 	}
@@ -57,8 +57,9 @@ public class UserDAO_txt implements IUserDAO {
 	private int generateNewId() {	
 	    return userList.stream().mapToInt(User::getId).max().orElse(0) + 1;
 	}
-
-	private void loadDataFromFile() {
+	
+	@Override
+	public void loadDataFromFile() {
 	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	        String txtOneLine = br.readLine(); 
 	        while ((txtOneLine = br.readLine()) != null) {
@@ -79,8 +80,9 @@ public class UserDAO_txt implements IUserDAO {
 	        System.out.println("Error leyendo archivo: " + e.getMessage());
 	    }		
 	}
-
-	private void writeDataToFile() {
+	
+	@Override
+	public void writeDataToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			writer.write(headers);
 			for(User user:userList) {

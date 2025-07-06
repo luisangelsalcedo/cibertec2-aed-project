@@ -14,13 +14,13 @@ import eparking.enums.ReservationStatus;
 import eparking.interfaces.IReservationDAO;
 import eparking.models.Reservation;
 
-public class ReservationDAO_txt implements IReservationDAO {
+public class ReservationDAO_txt extends AbstractDAO_txt implements IReservationDAO {
 	
-    private final String filePath = "data/reservaciones.txt";
 	private final String headers = "Id,UserId,ParkingId,Status,CreationDate,StartTime,EndTime";
 	private List<Reservation> reservationList;
 
 	public ReservationDAO_txt(){
+		super("reservaciones.txt");
 		reservationList = new ArrayList<>();
 		loadDataFromFile();	
 	}
@@ -73,7 +73,8 @@ public class ReservationDAO_txt implements IReservationDAO {
 	    return reservationList.stream().mapToInt(Reservation::getId).max().orElse(0) + 1;
 	}
 
-	private void loadDataFromFile() {
+	@Override
+	public void loadDataFromFile() {
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	        String txtOneLine = br.readLine(); 
 	        while ((txtOneLine = br.readLine()) != null) {
@@ -94,8 +95,9 @@ public class ReservationDAO_txt implements IReservationDAO {
 	        System.out.println("Error leyendo archivo: " + e.getMessage());
 	    }		
 	}
-
-	private void writeDataToFile() {
+	
+	@Override
+	public void writeDataToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			writer.write(headers);
 			for(Reservation reservation : reservationList) {
