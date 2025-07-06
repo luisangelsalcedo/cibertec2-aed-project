@@ -1,5 +1,6 @@
 package eparking.models;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import eparking.controllers.AuthController;
@@ -23,6 +24,15 @@ public class Reservation {
     
     public Reservation(int parkingId) {
     	this(parkingId, LocalDate.now());
+    }
+    
+    public Reservation(Reservation reservation) {
+    	this(reservation.getParkingId(), reservation.getCreationDate());
+    	setId(reservation.getId());
+    	setUserId(reservation.getUserId());
+    	setStatus(reservation.getStatus());
+    	setStartTime(reservation.getStartTime());
+    	setEndTime(reservation.getEndTime());
     }
     
     public Reservation() {}
@@ -72,4 +82,21 @@ public class Reservation {
 	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
+	
+	//methods
+	public String getElapsedTime() {
+	    if (startTime == null || endTime == null || endTime.isBefore(startTime)) {
+	        return "No disponible";
+	    }
+
+	    Duration duration = Duration.between(startTime, endTime);
+	    long hours = duration.toHours();
+	    long minutes = duration.toMinutesPart();
+
+	    return String.format("%d hora%s %d minuto%s",
+	            hours, hours != 1 ? "s" : "",
+	            minutes, minutes != 1 ? "s" : "");
+	}
+	
+
 }
