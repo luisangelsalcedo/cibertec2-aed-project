@@ -44,22 +44,11 @@ public class CurrentReservationView extends JPanel {
 		setOpaque(false);		
 		
 		if (currentReservation == null) {
-			setLayout(new GridLayout(2, 1, 10, 10));
-			
 			new CustomAlert(
-				"No tienes reservaciones pendietes", 
-				AlertType.NOTICE
-			);
-			
-			JLabel label = new JLabel("Realiza una reservacion");
-			label.setFont(ThemeStyles.lgFont);
-			CustomButton btn = new CustomButton("Ver estacionamientos disponibles");
-			btn.addActionListener(e ->{
-				MainDialog.getInstance().showView(new ReserveView());
-				MainDialog.getInstance().setTitle("Reservar estacionamiento");
-			});
-			add(label);
-			add(btn);
+					"No tienes reservaciones pendientes", 
+					AlertType.NOTICE
+				);
+			add(new EmptyReservationView());
 			
 		} else {
 			setLayout(new GridLayout(3, 1, 10, 10));
