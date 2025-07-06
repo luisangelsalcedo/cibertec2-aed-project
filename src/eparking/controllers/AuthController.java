@@ -7,7 +7,7 @@ import eparking.models.User;
 public class AuthController {
 	private IUserDAO userDao;
 	
-	private static int maxAttempts;
+	private final static int maxAttempts;
 	private static User loggedUser;
 	
 	static {
