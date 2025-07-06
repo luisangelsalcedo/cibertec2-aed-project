@@ -8,9 +8,9 @@ public  class Parking {
 	private ParkingStatus status;
 	
 	public Parking(int id, String label, ParkingStatus status) {
-		this.id = id;
-		this.label = label;
-		this.status = status;
+		setId(id);
+		setLabel(label);
+		setStatus(status);
 	}
 	
 	public Parking(String label) {
@@ -25,12 +25,18 @@ public  class Parking {
 		return id;
 	}
 	public void setId(int id) {
+		if(id <= 0) {
+			throw new IllegalArgumentException("El ID debe ser un número positivo");
+		}
 		this.id = id;
 	}
 	public String getLabel() {
 		return label;
 	}
 	public void setLabel(String label) {
+		if(label == null || label.isEmpty()) {
+			throw new IllegalArgumentException("La etiqueta no puede ser nula ni estar vacía");
+		}
 		this.label = label;
 	}
 	public ParkingStatus getStatus() {

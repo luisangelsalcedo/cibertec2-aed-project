@@ -48,8 +48,8 @@ public class AboutUsView extends JPanel {
 		groupMemberFullNamePanel.setOpaque(false);
 		
 		for(GroupMember member:RootData.groupList) {
-			groupMemberCodePanel.add(new JLabel(member.code));
-			groupMemberFullNamePanel.add(new JLabel(member.fullName));
+			groupMemberCodePanel.add(new JLabel(member.getCode()));
+			groupMemberFullNamePanel.add(new JLabel(member.getFullName()));
 		}
 		
 		JPanel descriptionPanelContent = new JPanel();
