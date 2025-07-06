@@ -41,11 +41,11 @@ public class CurrentReservationView extends JPanel {
 		
 		controller = new ReservationController();		
 		currentReservation = controller.getActiveReservation(AuthController.getLoggedUser().getId());
-		
-		setLayout(new GridLayout(3, 1, 10, 10));
-		setOpaque(false);
+		setOpaque(false);		
 		
 		if (currentReservation == null) {
+			setLayout(new GridLayout(2, 1, 10, 10));
+			
 			new CustomAlert(
 				"No tienes reservaciones pendietes", 
 				AlertType.NOTICE
@@ -62,6 +62,7 @@ public class CurrentReservationView extends JPanel {
 			add(btn);
 			
 		} else {
+			setLayout(new GridLayout(3, 1, 10, 10));
 			currentReservationDTO = controller.getReservationDetails(currentReservation);
 			
 			txtDate = new CustomInput(10, false);
