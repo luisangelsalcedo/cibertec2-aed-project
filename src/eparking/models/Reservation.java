@@ -31,8 +31,8 @@ public class Reservation {
     	setId(reservation.getId());
     	setUserId(reservation.getUserId());
     	setStatus(reservation.getStatus());
-    	setStartTime(reservation.getStartTime());
-    	setEndTime(reservation.getEndTime());
+    	this.startTime = reservation.getStartTime();
+    	this.endTime = reservation.getEndTime();
     }
     
     public Reservation() {}
@@ -92,14 +92,14 @@ public class Reservation {
 		this.creationDate = creationDate;
 	}
 	public void setStartTime(LocalTime startTime) {
-		if(startTime == null) {
-			throw new IllegalArgumentException("La hora de inicio no puede ser nula");
+		if(creationDate.isAfter(LocalDate.now())) {
+			throw new IllegalArgumentException("Solo puedes registrar la hora de inicio el " + creationDate);
 		}
 		this.startTime = startTime;
 	}
 	public void setEndTime(LocalTime endTime) {
-		if(endTime == null) {
-			throw new IllegalArgumentException("La hora de fin no puede ser nula");
+		if(creationDate.isAfter(LocalDate.now())) {
+			throw new IllegalArgumentException("Solo puedes registrar la hora de fin el " + creationDate);
 		}
 		this.endTime = endTime;
 	}
@@ -117,6 +117,19 @@ public class Reservation {
 	    return String.format("%d hora%s %d minuto%s",
 	            hours, hours != 1 ? "s" : "",
 	            minutes, minutes != 1 ? "s" : "");
+	}
+	
+	@Override
+	public String toString() {
+		return String.join(",",
+				String.valueOf(getId()),
+				String.valueOf(getUserId()),
+				String.valueOf(getParkingId()),
+				getStatus().toString(),
+				String.valueOf(getCreationDate()),
+				String.valueOf(getStartTime()),
+				String.valueOf(getEndTime())
+				);
 	}
 	
 

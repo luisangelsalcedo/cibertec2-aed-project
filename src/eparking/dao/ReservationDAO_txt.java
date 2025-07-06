@@ -85,8 +85,8 @@ public class ReservationDAO_txt implements IReservationDAO {
 				reservation.setParkingId(Integer.parseInt(fields[2]));
 				reservation.setStatus(ReservationStatus.fromTo(fields[3]));
 				reservation.setCreationDate(LocalDate.parse(fields[4]));
-				reservation.setStartTime(!"null".equals(fields[5]) ? LocalTime.parse(fields[5]): null);
-				reservation.setEndTime(!"null".equals(fields[6]) ? LocalTime.parse(fields[6]): null);
+				if(!"null".equals(fields[5])) reservation.setStartTime(LocalTime.parse(fields[5]));
+				if(!"null".equals(fields[6])) reservation.setEndTime(LocalTime.parse(fields[6]));
 	            
 	            reservationList.add(reservation);
 	        }
@@ -98,17 +98,9 @@ public class ReservationDAO_txt implements IReservationDAO {
 	private void writeDataToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			writer.write(headers);
-			for(Reservation reservation:reservationList) {
+			for(Reservation reservation : reservationList) {
 				writer.newLine();
-				writer.write(String.join(",",
-				String.valueOf(reservation.getId()),
-				String.valueOf(reservation.getUserId()),
-				String.valueOf(reservation.getParkingId()),
-				reservation.getStatus().toString(),
-				String.valueOf(reservation.getCreationDate()),
-				String.valueOf(reservation.getStartTime()),
-				String.valueOf(reservation.getEndTime())
-				));
+				writer.write(reservation.toString());
 			}			
 	    } catch (IOException e) {
 	        System.out.println("Error guardando usuario: " + e.getMessage());

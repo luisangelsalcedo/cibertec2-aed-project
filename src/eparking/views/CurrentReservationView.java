@@ -149,37 +149,50 @@ public class CurrentReservationView extends JPanel {
 		txtEndTime.setText(endTime);
 	}
 
-	private void startTimeRegister() {
+	private void startTimeRegister() {		
 		String startTime = LocalTime.now().format(ThemeStyles.dateFormat);
-		showStartTime(startTime);
-		
-		// set
-		currentReservation.setStartTime(LocalTime.parse(startTime));
-		currentReservation.setStatus(ReservationStatus.INPROGRESS);
-		controller.updateReservation(currentReservation);
-		// Disparar evento global
-        EventSystem.triggerDashboardRefresh();
-        
-		MainDialog.getInstance().pack();
+		try {
+			// set
+			currentReservation.setStartTime(LocalTime.parse(startTime));
+			currentReservation.setStatus(ReservationStatus.INPROGRESS);
+			controller.updateReservation(currentReservation);
+			// Disparar evento global
+	        EventSystem.triggerDashboardRefresh();
+	        showStartTime(startTime);
+	        
+	        new CustomAlert(
+	            "Hemos registrado tu hora de ingreso a las " + startTime + ".\n" +
+	            "Tu vehiculo esta en buenas manos.",
+	            AlertType.DEFAULT
+	        );
+			MainDialog.getInstance().pack();
+			
+		} catch (Exception e) {
+			new CustomAlert(e.getMessage(), AlertType.ERROR);
+		}
 	}
 	
 	private void endTimeRegister() {
-		String endTime = LocalTime.now().format(ThemeStyles.dateFormat);
-		showEndTime(endTime);
-		
-		//set
-		currentReservation.setEndTime(LocalTime.parse(endTime));
-		currentReservation.setStatus(ReservationStatus.COMPLETE);
-		controller.updateReservation(currentReservation);
-		// Disparar evento global
-        EventSystem.triggerDashboardRefresh();
-        
-        new CustomAlert(
-            "Tu reserva ha sido finalizada exitosamente.\n" +
-            "El estacionamiento ya está disponible para otros usuarios.",
-            AlertType.SUCCESS
-        );
-        MainDialog.getInstance().dispose(); // close
+		String endTime = LocalTime.now().format(ThemeStyles.dateFormat);		
+		try {
+			//set
+			currentReservation.setEndTime(LocalTime.parse(endTime));
+			currentReservation.setStatus(ReservationStatus.COMPLETE);
+			controller.updateReservation(currentReservation);
+			// Disparar evento global
+	        EventSystem.triggerDashboardRefresh();
+	        showEndTime(endTime);
+	        
+	        new CustomAlert(
+	            "Tu reserva ha sido finalizada exitosamente a las " + endTime + ".\n" +
+	            "El estacionamiento ya está disponible para otros usuarios.",
+	            AlertType.SUCCESS
+	        );
+	        MainDialog.getInstance().dispose(); // close
+	        
+		} catch (Exception e) {
+			new CustomAlert(e.getMessage(), AlertType.ERROR);
+		}
 	}
 
 	private void cancelCurrentRegister() {
