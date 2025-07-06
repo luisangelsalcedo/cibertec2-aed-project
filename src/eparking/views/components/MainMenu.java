@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import eparking.controllers.AuthController;
 import eparking.enums.AlertType;
+import eparking.enums.Permission;
 import eparking.utils.ThemeStyles;
 import eparking.views.AboutUsView;
 import eparking.views.CreateUserView;
@@ -23,14 +24,14 @@ import eparking.views.UserListView;
 public class MainMenu extends JMenuBar implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
-	private JMenuItem mntmReservar;
-	private JMenuItem mntmReservaActual;
-	private JMenuItem mntmMisReservas;
-	private JMenuItem mntmAcercaDeLaApp;	
-	private JMenuItem mntmVerUsuario;	
-	private JMenuItem mntmListarUsuarios;	
-	private JMenuItem mntmAgregarUsuario;	
-	private JMenuItem mntmCerrarSesion;
+	private CustomMenuItem mntmReservar;
+	private CustomMenuItem mntmReservaActual;
+	private CustomMenuItem mntmMisReservas;
+	private CustomMenuItem mntmAcercaDeLaApp;	
+	private CustomMenuItem mntmVerUsuario;	
+	private CustomMenuItem mntmListarUsuarios;	
+	private CustomMenuItem mntmAgregarUsuario;	
+	private CustomMenuItem mntmCerrarSesion;
 	private JFrame parent;
 	
 	public MainMenu(JFrame parent){
@@ -41,24 +42,14 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		Font menuFont = ThemeStyles.lgFont;		
 		
 		// set menu Items
-		mntmReservar 				= new JMenuItem("Reservar estacionamiento");
-		mntmReservaActual 			= new JMenuItem("Reserva actual");
-		mntmMisReservas 			= new JMenuItem("Mis reservas");
-		mntmAcercaDeLaApp 			= new JMenuItem("Acerca de la aplicación");
-		mntmVerUsuario	 			= new JMenuItem("Ver Usuario");
-		mntmListarUsuarios	 		= new JMenuItem("Listar Usuarios");
-		mntmAgregarUsuario	 		= new JMenuItem("Agregar Usuarios");
-		mntmCerrarSesion	 		= new JMenuItem("Cerrar sesión");
-		
-		// set submenu font
-		mntmReservar.setFont(ThemeStyles.lgFont);
-		mntmReservaActual.setFont(ThemeStyles.lgFont);
-		mntmMisReservas.setFont(ThemeStyles.lgFont);
-		mntmAcercaDeLaApp.setFont(ThemeStyles.lgFont);
-		mntmVerUsuario.setFont(ThemeStyles.lgFont);
-		mntmListarUsuarios.setFont(ThemeStyles.lgFont);
-		mntmAgregarUsuario.setFont(ThemeStyles.lgFont);
-		mntmCerrarSesion.setFont(ThemeStyles.lgFont);
+		mntmReservar 				= new CustomMenuItem("Reservar estacionamiento");
+		mntmReservaActual 			= new CustomMenuItem("Reserva actual");
+		mntmMisReservas 			= new CustomMenuItem("Mis reservas");
+		mntmAcercaDeLaApp 			= new CustomMenuItem("Acerca de la aplicación");
+		mntmVerUsuario	 			= new CustomMenuItem("Ver Usuario");
+		mntmListarUsuarios	 		= new CustomMenuItem("Listar Usuarios", Permission.ADMIN);
+		mntmAgregarUsuario	 		= new CustomMenuItem("Agregar Usuarios", Permission.ADMIN);
+		mntmCerrarSesion	 		= new CustomMenuItem("Cerrar sesión");
 		
 		// set action events
 		mntmReservar.addActionListener(this);
@@ -74,9 +65,9 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		JMenu mnMantenimiento = new JMenu("Reservas");
 		mnMantenimiento.setFont(menuFont);
 		mnMantenimiento.setForeground(fgColor);
-		mnMantenimiento.add(mntmReservar);
-		mnMantenimiento.add(mntmReservaActual);		
-		mnMantenimiento.add(mntmMisReservas);
+		for(CustomMenuItem item : new CustomMenuItem[] {mntmReservar, mntmReservaActual, mntmMisReservas}) {
+			if(item.hasMenuPermission()) mnMantenimiento.add(item);			
+		}
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
 		mnAyuda.setFont(menuFont);
@@ -86,10 +77,9 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		JMenu mnUsuarios = new JMenu("Usuarios");
 		mnUsuarios.setFont(menuFont);
 		mnUsuarios.setForeground(fgColor);
-		mnUsuarios.add(mntmVerUsuario);
-		mnUsuarios.add(mntmListarUsuarios);
-		mnUsuarios.add(mntmAgregarUsuario);
-		mnUsuarios.add(mntmCerrarSesion);
+		for(CustomMenuItem item : new CustomMenuItem[] {mntmVerUsuario, mntmListarUsuarios, mntmAgregarUsuario, mntmCerrarSesion}) {
+			if(item.hasMenuPermission()) mnUsuarios.add(item);			
+		}
 		
 		// set menu bar
 		setBackground(bgColor);
@@ -97,6 +87,8 @@ public class MainMenu extends JMenuBar implements ActionListener {
 		add(mnUsuarios);
 		add(mnAyuda);
 	}	
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
