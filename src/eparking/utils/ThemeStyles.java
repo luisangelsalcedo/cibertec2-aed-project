@@ -25,6 +25,7 @@ public class ThemeStyles {
 	public static Font lgFont;
 	public static Font xlFont;	
 	public static Font xxlFont;	
+	public static Font hTableFont;	
 	public static DateTimeFormatter dateFormat;
 	
 	static {
@@ -48,6 +49,7 @@ public class ThemeStyles {
 		lgFont = new Font("Tahoma", Font.PLAIN, 16);
 		xlFont = new Font("Tahoma", Font.PLAIN, 20);
 		xxlFont = new Font("Tahoma", Font.BOLD, 22);
+		hTableFont = new Font("Tahoma", Font.BOLD, 12);
 		
 		dateFormat = DateTimeFormatter.ofPattern("HH:mm");
 	}
