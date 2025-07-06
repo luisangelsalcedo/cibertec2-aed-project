@@ -62,24 +62,45 @@ public class Reservation {
 
 	// setters
 	public void setId(int id) {
+		if(id <= 0) {
+			throw new IllegalArgumentException("El ID debe ser un número positivo");
+		}
 		this.id = id;
 	}
 	public void setUserId(int userId) {
+		if(userId <= 0) {
+			throw new IllegalArgumentException("El ID de usuario debe ser un número positivo");
+		}
 		this.userId = userId;
 	}
 	public void setParkingId(int parkingId) {
+		if(parkingId <= 0) {
+			throw new IllegalArgumentException("El ID de estacionamiento debe ser un número positivo");
+		}
 		this.parkingId = parkingId;
 	}
 	public void setStatus(ReservationStatus status) {
+		if(status == null) {
+			throw new IllegalArgumentException("El estado de la reserva no puede ser nulo");
+		}
 		this.status = status;
 	}
 	public void setCreationDate(LocalDate creationDate) {
+		if(creationDate == null) {
+			throw new IllegalArgumentException("La fecha de creación no puede ser nula");
+		}
 		this.creationDate = creationDate;
 	}
 	public void setStartTime(LocalTime startTime) {
+		if(startTime == null) {
+			throw new IllegalArgumentException("La hora de inicio no puede ser nula");
+		}
 		this.startTime = startTime;
 	}
 	public void setEndTime(LocalTime endTime) {
+		if(endTime == null) {
+			throw new IllegalArgumentException("La hora de fin no puede ser nula");
+		}
 		this.endTime = endTime;
 	}
 	
