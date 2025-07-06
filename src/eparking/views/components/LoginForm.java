@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import eparking.controllers.AuthController;
 import eparking.dao.UserDAO_txt;
 import eparking.enums.AlertType;
+import eparking.models.User;
 import eparking.utils.RootData;
 import eparking.utils.ThemeStyles;
 import eparking.views.HomeView;
@@ -77,34 +78,31 @@ public class LoginForm extends JPanel{
 		setVisible(true);
 	}
 
-	private Object submitAction() {
-		String userName = txtUserName.getText().trim(); 
-		char[] password = txtPassword.getPassword();			
-		
-		if(userName.length() < 2) {
-			new CustomAlert("El Usuario debe tener min 2 caracteres", AlertType.NOTICE);
-			txtUserName.requestFocus();
-			return null;
-		}
-		if(password.length < 8) {
-			new CustomAlert("La Contraseña debe tener min 8 caracteres", AlertType.NOTICE);
-			txtPassword.requestFocus();
-			return null;
-		}
-		UserDAO_txt dao = new UserDAO_txt();
-		AuthController controller = new AuthController(dao);
+	private void submitAction() {
+		String userName;
+		char[] password;		
 		
 		try {
-			controller.login(userName, new String(password));
+			userName = txtUserName.getText().trim();
+			password = txtPassword.getPassword();	
+			
+			User user = new User();
+			user.setUserName(userName);
+			user.setPassword(new String(password));
+			
+			
+			UserDAO_txt dao = new UserDAO_txt();
+			AuthController controller = new AuthController(dao);
+			controller.login(user);
 			HomeView homeView = new HomeView();
 			homeView.setVisible(true);
 			parent.dispose(); // cerramos el LoginView
+			
 		} catch (Exception e) {
 			new CustomAlert(e.getMessage(), AlertType.ERROR);
+			txtUserName.requestFocus();
+			cleanTextFields();
 		}
-
-		cleanTextFields();
-		return null;
 	}
 	
 	private void cleanTextFields() {

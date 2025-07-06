@@ -30,16 +30,16 @@ public class AuthController {
 	}
 	
 	// methods
-	public void login(String userName, String password) {
-		User userFound = userDao.findUserByUserName(userName);
+	public void login(User user) {
+		User userFound = userDao.findUserByUserName(user.getUserName());
 		
 		if(userFound == null) {
-			throw new IllegalArgumentException("El usuario " + userName + " no existe");
+			throw new IllegalArgumentException("El usuario " + user.getUserName() + " no existe");
 		}
 		if(hasTooManyAttempts(userFound)) {
-			throw new IllegalArgumentException("Su usuario " + userName + " ha sido bloqueado\nComunicate con el administrador para activarlo");
+			throw new IllegalArgumentException("Su usuario " + user.getUserName() + " ha sido bloqueado\nComunicate con el administrador para activarlo");
 		}
-		if(!verifyPassword(userFound, password)) {
+		if(!verifyPassword(userFound, user.getPassword())) {
 			throw new IllegalArgumentException("El usuario y la contraseña no coinciden");
 		}
 		

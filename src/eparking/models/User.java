@@ -52,21 +52,39 @@ public class User {
 
 	// setters
 	public void setId(int id) {
+		if(id <= 0) {
+			throw new IllegalArgumentException("El ID debe ser un número positivo");
+		}
 		this.id = id;
-	}	
-	public void setName(String name) {
-		this.name = name;
 	}
+	public void setName(String name) {
+		if(name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("El nombre no puede ser nulo ni estar vacío");
+		}
+		this.name = name;
+	}	
 	public void setUserName(String userName) {
+		if(userName == null || userName.isEmpty() || userName.length() < 2) {
+			throw new IllegalArgumentException("El Usuario debe tener min 2 caracteres");
+		}
 		this.userName = userName;
 	}
 	public void setPassword(String password) {
+		if(password == null || password.isEmpty() || password.length() < 8) {
+			throw new IllegalArgumentException("La Contraseña debe tener min 8 caracteres");
+		}
 		this.password = password;
 	}
 	public void setPermission(Permission permission) {
+		if(permission == null) {
+			throw new IllegalArgumentException("El permiso no puede ser nulo");
+		}
 		this.permission = permission;
-	}	
+	}
 	public void setLoginAttempt(int loginAttempt) {
+		if (loginAttempt < 0) {
+			throw new IllegalArgumentException("El número de intentos de inicio de sesión no puede ser negativo");
+		}
         this.loginAttempt = loginAttempt;
     }
 	public void setUserLock(boolean userLock) {
