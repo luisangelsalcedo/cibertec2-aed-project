@@ -76,6 +76,12 @@ public class ReservationController {
 		return parkingDao.getAllParkings().size() - reservationsActiveToday;
 	}
 	
+	public List<ReservationDTO> getAllReservationsDTOByUser(int userID) {
+		return reservationDao.getAllReservationsByUser(userID).stream()
+				.map(this::getReservationDetails)
+				.collect(Collectors.toList());
+			
+	}
 	public List<Reservation> getActiveReservations(int userID) {
 		return reservationDao.getAllReservationsByUser(userID).stream()
 			.filter(this::isActive)
